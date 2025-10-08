@@ -122,7 +122,7 @@
                 </div>
                 <div class="product-info">
                     <div class="product-article">Арт: 16K20-001</div>
-                    <h4 class="product-name">Токарно-винторезный станок 16К20</h4>
+                    <h4 class="product-name">Токарно-винторезный 16к20 РМЦ1500 Рязань 1972</h4>
                     <div class="product-category">Токарные станки</div>
                     <div class="product-status-line">
                         <span class="product-condition">Б.У</span>

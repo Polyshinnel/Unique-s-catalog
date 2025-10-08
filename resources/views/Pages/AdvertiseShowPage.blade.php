@@ -14,11 +14,15 @@
         <span class="current">Станок 16к20</span>
     </div>
 
-    <h1 class="catalog-title">Станок 16к20</h1>
+    <h1 class="catalog-title">Станок 16к20 РМЦ1500 Рязань 1972</h1>
 
     <div class="advertise-info">
         <div class="advertise-main">
             <div class="advertise-details">
+                <div class="detail-item">
+                    <span class="detail-label">Название:</span>
+                    <span class="detail-value">Станок 16к20 РМЦ1500 Рязань 1972</span>
+                </div>
                 <div class="detail-item">
                     <span class="detail-label">Артикул:</span>
                     <span class="detail-value">СМК-097-25092025-1553</span>
