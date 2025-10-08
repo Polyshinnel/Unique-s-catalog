@@ -18,26 +18,6 @@
 
     <div class="advertise-info">
         <div class="advertise-main">
-            <div class="advertise-gallery">
-                <div class="gallery-main-image">
-                    <img src="/assets/img/stanok.webp" alt="Станок 16к20">
-                </div>
-                <div class="gallery-thumbnails">
-                    <div class="gallery-thumb active">
-                        <img src="/assets/img/stanok.webp" alt="Фото 1">
-                    </div>
-                    <div class="gallery-thumb">
-                        <img src="/assets/img/stanok.webp" alt="Фото 2">
-                    </div>
-                    <div class="gallery-thumb">
-                        <img src="/assets/img/stanok.webp" alt="Фото 3">
-                    </div>
-                    <div class="gallery-thumb">
-                        <img src="/assets/img/stanok.webp" alt="Фото 4">
-                    </div>
-                </div>
-            </div>
-
             <div class="advertise-details">
                 <div class="detail-item">
                     <span class="detail-label">Артикул:</span>
@@ -89,6 +69,26 @@
         </div>
 
         <div class="advertise-content">
+            <div class="advertise-gallery">
+                <div class="gallery-main-image">
+                    <img src="/assets/img/stanok.webp" alt="Станок 16к20">
+                </div>
+                <div class="gallery-thumbnails">
+                    <div class="gallery-thumb active">
+                        <img src="/assets/img/stanok.webp" alt="Фото 1">
+                    </div>
+                    <div class="gallery-thumb">
+                        <img src="/assets/img/stanok.webp" alt="Фото 2">
+                    </div>
+                    <div class="gallery-thumb">
+                        <img src="/assets/img/stanok.webp" alt="Фото 3">
+                    </div>
+                    <div class="gallery-thumb">
+                        <img src="/assets/img/stanok.webp" alt="Фото 4">
+                    </div>
+                </div>
+            </div>
+
             <div class="info-block">
                 <h2 class="info-block-title">Основные характеристики</h2>
                 <div class="info-block-content">
