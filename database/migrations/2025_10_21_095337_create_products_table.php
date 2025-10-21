@@ -16,10 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('sku');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('product_status_id');
             $table->unsignedBigInteger('product_state_id');
             $table->unsignedBigInteger('product_availability_id');
             $table->unsignedBigInteger('product_location_id');
             $table->dateTime('last_system_update');
+            $table->integer('panel_adv_id');
             $table->timestamps();
         });
     }

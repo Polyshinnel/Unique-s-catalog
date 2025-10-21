@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('parent_id');
             $table->boolean('active')->default(true);
+            $table->integer('category_panel_id');
             $table->timestamps();
         });
     }

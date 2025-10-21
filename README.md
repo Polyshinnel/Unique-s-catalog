@@ -1,4 +1,4 @@
-#Пример json
+#Пример json товара
 
 ```
 {
@@ -9,6 +9,7 @@
   "product_availability_id": 1,
   "product_location_id": 1,
   "last_system_update": "2025-01-21 10:00:00",
+  "panel_adv_id": 1,
   "manager": {
     "manager": "Иван Иванов",
     "phone": "+7(999)123-45-67"
@@ -29,16 +30,47 @@
       "comment": "Цена с НДС",
       "show": true
     }
-  ],
-  "images": [
-    {
-      "image": "product1.jpg",
-      "main_image": true
-    },
-    {
-      "image": "product2.jpg", 
-      "main_image": false
-    }
   ]
 }
+```
+
+#Пример json категории
+
+```
+[
+  {
+    "id": 1,
+    "name": "Название категории",
+    "parent_id": 0,
+    "is_active": true
+  },
+  {
+    "id": 2,
+    "name": "Подкатегория",
+    "parent_id": 1,
+    "is_active": true
+  }
+]
+```
+
+#Пример json локаций
+```
+[
+    {
+        "id": 1,
+        "name": "Склад А",
+        "active": true
+    },
+    {
+        "id": 2,
+        "name": "Склад Б",
+        "active": false
+    },
+    {
+        "id": 3,
+        "name": "Торговый зал",
+        "active": true
+    }
+]
+
 ```

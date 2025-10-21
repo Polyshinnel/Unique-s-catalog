@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('product_locations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('active')->default(true);
+            $table->integer('panel_location_id');
             $table->timestamps();
         });
     }

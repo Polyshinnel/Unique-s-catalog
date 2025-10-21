@@ -3,23 +3,31 @@
 namespace App\Service\Products;
 
 use App\Models\Product;
+use App\Models\ProductAvailable;
 use App\Models\ProductManager;
 use App\Models\ProductCharacteristics;
 use App\Models\ProductPrice;
 use App\Models\ProductImages;
+use App\Models\ProductState;
+use App\Models\ProductStatus;
 
 class ProductCreateService
 {
     public function createProduct($productData)
     {
+        $status = ProductStatus::where('name', $productData['status'])->first();
+        $state = ProductState::where('name', $productData['state'])->first();
+        $availability = ProductAvailable::where('name', $productData['available'])->first();
         $product = Product::create([
             'name' => $productData['name'],
             'sku' => $productData['sku'],
             'category_id' => $productData['category_id'],
-            'product_state_id' => $productData['product_state_id'],
-            'product_availability_id' => $productData['product_availability_id'],
+            'product_status_id' => $status->id,
+            'product_state_id' => $state->id,
+            'product_availability_id' => $availability->id,
             'product_location_id' => $productData['product_location_id'],
             'last_system_update' => $productData['last_system_update'] ?? now(),
+            'panel_adv_id' => $productData['panel_adv_id'],
         ]);
 
         if (isset($productData['manager'])) {
@@ -51,16 +59,6 @@ class ProductCreateService
                     'price' => $priceData['price'] ?? 0,
                     'comment' => $priceData['comment'] ?? null,
                     'show' => $priceData['show'] ?? true,
-                ]);
-            }
-        }
-
-        if (isset($productData['images'])) {
-            foreach ($productData['images'] as $imageData) {
-                ProductImages::create([
-                    'product_id' => $product->id,
-                    'image' => $imageData['image'],
-                    'main_image' => $imageData['main_image'] ?? false,
                 ]);
             }
         }
