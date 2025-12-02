@@ -14,18 +14,19 @@
 <body>
     <header class="header">
         <div class="box-container">
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Открыть меню">☰</button>
             <div class="header-content">
                 <div class="logo">
                     <img src="assets/img/unique-logo.png" alt="Unique Logo">
                 </div>
                 
-                <nav class="menu">
-                    <a href="#" class="menu-link">Главная</a>
-                    <a href="#" class="menu-link">Услуги</a>
-                    <a href="#" class="menu-link">Интернет магазин</a>
-                    <a href="#" class="menu-link">Отгрузки</a>
-                    <a href="#" class="menu-link">Компания</a>
-                    <a href="#" class="menu-link">Контакты</a>
+                <nav class="menu" id="mainMenu">
+                    <a href="https://uniqset.com/" class="menu-link">Главная</a>
+                    <a href="https://uniqset.com/prodazha-oborudovaniya/" class="menu-link">Услуги</a>
+                    <a href="/" class="menu-link">Интернет магазин</a>
+                    <a href="https://uniqset.com/otgruzki/" class="menu-link">Отгрузки</a>
+                    <a href="https://uniqset.com/o-nas/" class="menu-link">Компания</a>
+                    <a href="https://uniqset.com/o-nas/contacts/" class="menu-link">Контакты</a>
                 </nav>
                 
                 <div class="header-right">
@@ -109,5 +110,34 @@
     </footer>
 
     @stack('scripts')
+    <script>
+        // Мобильное меню
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+
+        if (mobileMenuToggle && mainMenu) {
+            mobileMenuToggle.addEventListener('click', function() {
+                mainMenu.classList.toggle('active');
+                this.textContent = mainMenu.classList.contains('active') ? '✕' : '☰';
+            });
+
+            // Закрытие меню при клике на ссылку
+            const menuLinks = mainMenu.querySelectorAll('.menu-link');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mainMenu.classList.remove('active');
+                    mobileMenuToggle.textContent = '☰';
+                });
+            });
+
+            // Закрытие меню при клике вне его области
+            document.addEventListener('click', function(e) {
+                if (!mainMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    mainMenu.classList.remove('active');
+                    mobileMenuToggle.textContent = '☰';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

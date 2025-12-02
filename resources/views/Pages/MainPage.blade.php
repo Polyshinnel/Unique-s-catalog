@@ -10,181 +10,169 @@
 
     <h1 class="catalog-title">Каталог</h1>
 
-    <div class="catalog-page-block">
-        <aside class="filters-sidebar">
-            <div class="filter-block">
-                <h3 class="filter-title">Поиск</h3>
-                <div class="filter-options">
-                    <div class="search-box">
-                        <input type="text" class="search-input" placeholder="Введите запрос..." id="searchInput">
-                        <button class="search-button" id="searchButton">Найти</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="filter-block">
-                <h3 class="filter-title">По цене</h3>
-                <div class="filter-options">
-                    <div class="price-range">
-                        <input type="range" min="0" max="5000000" step="10000" value="2500000" class="price-slider" id="priceSlider">
-                        <div class="price-values">
-                            <span>0 ₽</span>
-                            <span id="priceValue">2 500 000 ₽</span>
+    <form method="GET" action="{{ route('home') }}" id="filterForm">
+        <div class="catalog-page-block">
+            <aside class="filters-sidebar">
+                <div class="filter-block">
+                    <h3 class="filter-title">Поиск</h3>
+                    <div class="filter-options">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Введите запрос..." id="searchInput" name="search" value="{{ request('search') }}">
+                            <button type="submit" class="search-button" id="searchButton">Найти</button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="filter-block">
-                <h3 class="filter-title">По региону</h3>
-                <div class="filter-options">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="region" value="kaluga">
-                        <span>Калужская область</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="region" value="moscow">
-                        <span>Московская область</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="region" value="orel">
-                        <span>Орловская область</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="filter-block">
-                <h3 class="filter-title">По категориям</h3>
-                <div class="filter-options">
-                    <div class="category-item">
-                        <div class="category-header" data-category="tokarnie">
-                            <span class="category-toggle">+</span>
-                            <span class="category-name">Токарные станки</span>
-                        </div>
-                        <div class="category-subcategories">
-                            <div class="subcategory-link" data-category="16k20">16К20 и аналоги</div>
-                            <div class="subcategory-link" data-category="dip300">ДИП300 и аналоги</div>
-                            <div class="subcategory-link" data-category="dip500">ДИП500 и аналоги</div>
-                        </div>
-                    </div>
-
-                    <div class="category-item">
-                        <div class="category-header" data-category="frezerni">
-                            <span class="category-toggle">+</span>
-                            <span class="category-name">Фрезерные станки</span>
-                        </div>
-                        <div class="category-subcategories">
-                            <div class="subcategory-link" data-category="vertical">Вертикально-фрезерные</div>
-                            <div class="subcategory-link" data-category="horizontal">Горизонтально-фрезерные</div>
-                            <div class="subcategory-link" data-category="longitudinal">Продольно-фрезерные</div>
+                <div class="filter-block">
+                    <h3 class="filter-title">По цене</h3>
+                    <div class="filter-options">
+                        <div class="price-range">
+                            @php
+                                $maxPrice = \App\Models\ProductPrice::where('show', true)->max('price') ?? 5000000;
+                                $minPrice = \App\Models\ProductPrice::where('show', true)->min('price') ?? 0;
+                                $currentPriceMin = request('price_min', $minPrice);
+                                $currentPriceMax = request('price_max', $maxPrice);
+                            @endphp
+                            <input type="hidden" name="price_min" id="priceMinInput" value="{{ $currentPriceMin }}">
+                            <input type="hidden" name="price_max" id="priceMaxInput" value="{{ $currentPriceMax }}">
+                            <div class="price-slider-container">
+                                <input type="range" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="10000" value="{{ $currentPriceMin }}" class="price-slider price-slider-min" id="priceSliderMin">
+                                <input type="range" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="10000" value="{{ $currentPriceMax }}" class="price-slider price-slider-max" id="priceSliderMax">
+                            </div>
+                            <div class="price-values">
+                                <span id="priceValueMin">{{ number_format($currentPriceMin, 0, ',', ' ') }} ₽</span>
+                                <span id="priceValueMax">{{ number_format($currentPriceMax, 0, ',', ' ') }} ₽</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="filter-block">
-                <h3 class="filter-title">По доступности</h3>
-                <div class="filter-options">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="availability" value="in_stock">
-                        <span>В наличии</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="availability" value="on_order">
-                        <span>Под заказ</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="filter-block">
-                <h3 class="filter-title">По состоянию</h3>
-                <div class="filter-options">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="condition" value="new">
-                        <span>Новые</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="condition" value="used">
-                        <span>Б.У</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="condition" value="restored">
-                        <span>Восстановленные</span>
-                    </label>
-                </div>
-            </div>
-        </aside>
-
-        <div class="catalog-main">
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="/assets/img/stanok.webp" alt="Станок">
-                </div>
-                <div class="product-info">
-                    <div class="product-article">Арт: 16K20-001</div>
-                    <h4 class="product-name">Токарно-винторезный 16к20 РМЦ1500 Рязань 1972</h4>
-                    <div class="product-category">Токарные станки</div>
-                    <div class="product-status-line">
-                        <span class="product-condition">Б.У</span>
-                        <span class="product-availability">В наличии</span>
+                <div class="filter-block">
+                    <h3 class="filter-title">По региону</h3>
+                    <div class="filter-options">
+                        @foreach($locations as $location)
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="region[]" value="{{ $location->id }}" {{ in_array($location->id, (array)request('region', [])) ? 'checked' : '' }}>
+                                <span>{{ $location->name }}</span>
+                            </label>
+                        @endforeach
                     </div>
-                    <div class="product-price">850 000 ₽</div>
-                    <a href="/advertise" class="product-button">Подробнее</a>
                 </div>
-            </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="/assets/img/stanok.webp" alt="Станок">
-                </div>
-                <div class="product-info">
-                    <div class="product-article">Арт: ДИП300-015</div>
-                    <h4 class="product-name">Токарный станок ДИП300</h4>
-                    <div class="product-category">Токарные станки</div>
-                    <div class="product-status-line">
-                        <span class="product-condition">Восстановленный</span>
-                        <span class="product-availability">Под заказ</span>
+                <div class="filter-block">
+                    <h3 class="filter-title">По категориям</h3>
+                    <div class="filter-options">
+                        @php
+                            $parentCategories = $categories->where('parent_id', 0);
+                        @endphp
+                        @foreach($parentCategories as $parentCategory)
+                            @php
+                                $children = $categories->where('parent_id', $parentCategory->id);
+                            @endphp
+                            @if($children->count() > 0)
+                                <div class="category-item">
+                                    <label class="category-header checkbox-label has-subcategories" data-category="{{ $parentCategory->id }}">
+                                        <span class="category-toggle">+</span>
+                                        <span class="category-name">{{ $parentCategory->name }}</span>
+                                    </label>
+                                    <div class="category-subcategories">
+                                        @foreach($children as $child)
+                                            <label class="subcategory-link checkbox-label" data-category="{{ $child->id }}">
+                                                <input type="radio" name="category" value="{{ $child->id }}" {{ request('category') == $child->id ? 'checked' : '' }} style="display: none;">
+                                                <span>{{ $child->name }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+                                <div class="category-item">
+                                    <label class="category-header checkbox-label" data-category="{{ $parentCategory->id }}">
+                                        <span class="category-toggle" style="opacity: 0; pointer-events: none;">+</span>
+                                        <span class="category-name">{{ $parentCategory->name }}</span>
+                                    </label>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
-                    <div class="product-price">1 200 000 ₽</div>
-                    <a href="/advertise" class="product-button">Подробнее</a>
                 </div>
-            </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="/assets/img/stanok.webp" alt="Станок">
-                </div>
-                <div class="product-info">
-                    <div class="product-article">Арт: 6Р82-023</div>
-                    <h4 class="product-name">Вертикально-фрезерный станок 6Р82</h4>
-                    <div class="product-category">Фрезерные станки</div>
-                    <div class="product-status-line">
-                        <span class="product-condition">Новый</span>
-                        <span class="product-availability">В наличии</span>
+                <div class="filter-block">
+                    <h3 class="filter-title">По доступности</h3>
+                    <div class="filter-options">
+                        @foreach($availabilities as $availability)
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="availability[]" value="{{ $availability->id }}" {{ in_array($availability->id, (array)request('availability', [])) ? 'checked' : '' }}>
+                                <span>{{ $availability->name }}</span>
+                            </label>
+                        @endforeach
                     </div>
-                    <div class="product-price">1 500 000 ₽</div>
-                    <a href="/advertise" class="product-button">Подробнее</a>
                 </div>
-            </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="/assets/img/stanok.webp" alt="Станок">
-                </div>
-                <div class="product-info">
-                    <div class="product-article">Арт: 6М82-008</div>
-                    <h4 class="product-name">Горизонтально-фрезерный станок 6М82</h4>
-                    <div class="product-category">Фрезерные станки</div>
-                    <div class="product-status-line">
-                        <span class="product-condition">Б.У</span>
-                        <span class="product-availability">В наличии</span>
+                <div class="filter-block">
+                    <h3 class="filter-title">По состоянию</h3>
+                    <div class="filter-options">
+                        @foreach($states as $state)
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="condition[]" value="{{ $state->id }}" {{ in_array($state->id, (array)request('condition', [])) ? 'checked' : '' }}>
+                                <span>{{ $state->name }}</span>
+                            </label>
+                        @endforeach
                     </div>
-                    <div class="product-price">950 000 ₽</div>
-                    <a href="/advertise" class="product-button">Подробнее</a>
                 </div>
+
+                <button type="submit" class="filter-apply-button">Применить фильтры</button>
+                <a href="{{ route('home') }}" class="filter-reset-button">Сбросить фильтры</a>
+            </aside>
+
+            <div class="catalog-main">
+                @if($products->count() > 0)
+                    @foreach($products as $product)
+                        <div class="product-card">
+                            <div class="product-image">
+                                @if($product->mainImage)
+                                    <img src="{{ asset('storage/' . $product->mainImage->image) }}" alt="{{ $product->name }}">
+                                @elseif($product->productImages->count() > 0)
+                                    <img src="{{ asset('storage/' . $product->productImages->first()->image) }}" alt="{{ $product->name }}">
+                                @else
+                                    <img src="/assets/img/stanok.webp" alt="Станок">
+                                @endif
+                            </div>
+                            <div class="product-info">
+                                <div class="product-article">Арт: {{ $product->sku }}</div>
+                                <h4 class="product-name">{{ $product->name }}</h4>
+                                @if($product->category)
+                                    <div class="product-category">{{ $product->category->name }}</div>
+                                @endif
+                                <div class="product-status-line">
+                                    @if($product->productState)
+                                        <span class="product-condition">{{ $product->productState->name }}</span>
+                                    @endif
+                                    @if($product->productAvailable)
+                                        <span class="product-availability">{{ $product->productAvailable->name }}</span>
+                                    @endif
+                                </div>
+                                @if($product->productPrice)
+                                    <div class="product-price">{{ number_format($product->productPrice->price, 0, ',', ' ') }} ₽</div>
+                                @else
+                                    <div class="product-price">Цена не указана</div>
+                                @endif
+                                <a href="{{ route('advertise') }}?id={{ $product->id }}" class="product-button">Подробнее</a>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    <!-- Пагинация -->
+                    <div class="pagination-wrapper">
+                        {{ $products->links() }}
+                    </div>
+                @else
+                    <div style="width: 100%; padding: 40px; text-align: center;">
+                        <p style="font-size: 18px; color: #666;">Объявления не найдены</p>
+                    </div>
+                @endif
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
 @push('scripts')
