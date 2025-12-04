@@ -5,10 +5,18 @@
     <div class="breadcrumbs">
         <a href="/">Главная</a>
         <span class="separator">></span>
+        @if($selectedCategory)
+        <a href="/">Каталог</a>
+        @else
         <span class="current">Каталог</span>
+        @endif
+        @if($selectedCategory)
+        <span class="separator">></span>
+        <span class="current">{{ $selectedCategory->name }}</span>
+        @endif
     </div>
 
-    <h1 class="catalog-title">Каталог</h1>
+    <h1 class="catalog-title">{{ $selectedCategory ? $selectedCategory->name : 'Каталог' }}</h1>
 
     <form method="GET" action="{{ route('home') }}" id="filterForm">
         <div class="catalog-page-block">

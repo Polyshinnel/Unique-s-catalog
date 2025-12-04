@@ -98,12 +98,19 @@ class MainPageController extends Controller
         $availabilities = ProductAvailable::all();
         $states = ProductState::all();
 
+        // Получаем выбранную категорию для отображения в заголовке и хлебных крошках
+        $selectedCategory = null;
+        if ($request->has('category') && $request->category) {
+            $selectedCategory = Category::find($request->category);
+        }
+
         return view('Pages.MainPage', [
             'products' => $products,
             'categories' => $categories,
             'locations' => $locations,
             'availabilities' => $availabilities,
             'states' => $states,
+            'selectedCategory' => $selectedCategory,
         ]);
     }
 }

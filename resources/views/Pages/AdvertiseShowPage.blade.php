@@ -8,7 +8,7 @@
         <a href="/">Каталог</a>
         @if($product->category)
         <span class="separator">></span>
-        <a href="/">{{ $product->category->name }}</a>
+        <a href="{{ route('home') }}?category={{ $product->category->id }}">{{ $product->category->name }}</a>
         @endif
         <span class="separator">></span>
         <span class="current">{{ $product->name }}</span>
