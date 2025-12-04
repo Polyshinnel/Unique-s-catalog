@@ -16,6 +16,11 @@ class MainPageController extends Controller
     {
         $query = Product::with(['category', 'productState', 'productAvailable', 'productLocation', 'productPrice', 'productPriceAll', 'mainImage', 'productStatus']);
 
+        // Фильтр по статусу - показываем только товары со статусом, у которого show = true
+        $query->whereHas('productStatus', function($q) {
+            $q->where('show', true);
+        });
+
         // Фильтр по поиску
         if ($request->has('search') && $request->search) {
             $search = $request->search;

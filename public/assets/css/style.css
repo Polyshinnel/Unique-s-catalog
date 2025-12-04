@@ -19,30 +19,130 @@ body{
 
 .header{
     width: 100%;
-    height: 105px;
+    min-height: 105px;
+    padding: 15px 0;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #fff;
 }
 
-.header-content{
+/* Десктопная версия - видна только на десктопе */
+.header-desktop{
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+.header-desktop .header-content{
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 30px;
+}
+
+.header-desktop .mobile-menu-toggle{
+    display: none;
+}
+
+.header-desktop .logo{
+    flex: 0 0 auto;
+}
+
+.header-desktop .menu{
+    flex: 1 1 auto;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.header-desktop .header-right{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    flex: 0 0 auto;
+}
+
+.header-desktop .contact-info{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+/* Мобильная версия - скрыта на десктопе */
+.header-mobile{
+    display: none;
+    width: 100%;
+}
+
+.header-mobile .header-content{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.header-mobile .header-top{
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 }
 
-.header-top{
-    display: none;
+.header-mobile .header-bottom{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
-.header-bottom{
-    display: none;
+.header-mobile .header-callback-button{
+    display: block;
+    background-color: #e53b24;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Varela Round", sans-serif;
 }
 
-.header-callback-button{
-    display: none;
+.header-mobile .header-callback-button:hover{
+    background-color: #c5321d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 59, 36, 0.3);
+}
+
+.header-mobile .mobile-menu-toggle{
+    display: block;
+    background: #133E71;
+    color: #fff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.header-mobile .mobile-menu-toggle:hover{
+    background: #0a2a4a;
+    transform: scale(1.05);
 }
 
 .logo img{
@@ -115,8 +215,9 @@ body{
 
 .contact-info{
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
 }
 
 .contact-item{
@@ -1433,13 +1534,23 @@ body{
         padding: 15px 0;
     }
 
-    .header-content{
+    /* Скрыть десктопную версию на мобильных */
+    .header-desktop{
+        display: none;
+    }
+
+    /* Показать мобильную версию на мобильных */
+    .header-mobile{
+        display: block;
+    }
+
+    .header-mobile .header-content{
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
 
-    .header-top{
+    .header-mobile .header-top{
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -1447,17 +1558,17 @@ body{
         width: 100%;
     }
 
-    .logo{
+    .header-mobile .logo{
         flex: 0 0 auto;
         display: flex;
         align-items: center;
     }
 
-    .logo img{
+    .header-mobile .logo img{
         height: 50px;
     }
 
-    .header-bottom{
+    .header-mobile .header-bottom{
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -1467,7 +1578,7 @@ body{
         flex-wrap: wrap;
     }
 
-    .menu{
+    .header-mobile .menu{
         width: 100%;
         flex-direction: column;
         gap: 10px;
@@ -1483,16 +1594,16 @@ body{
         margin-top: 15px;
     }
 
-    .menu.active{
+    .header-mobile .menu.active{
         display: flex;
     }
 
-    .menu-link{
+    .header-mobile .menu-link{
         padding: 10px 0;
         border-bottom: 1px solid #e0e0e0;
     }
 
-    .header-right{
+    .header-mobile .header-right{
         display: flex;
         flex-direction: row;
         gap: 10px;
@@ -1500,7 +1611,7 @@ body{
         flex: 0 0 auto;
     }
 
-    .contact-info{
+    .header-mobile .contact-info{
         display: flex;
         flex-direction: row;
         gap: 15px;
@@ -1508,49 +1619,27 @@ body{
         flex-wrap: wrap;
     }
 
-    .contact-item{
+    .header-mobile .contact-item{
         display: flex;
         align-items: center;
         gap: 6px;
         justify-content: flex-start;
     }
 
-    .contact-text{
+    .header-mobile .contact-text{
         font-size: 13px;
         white-space: nowrap;
     }
 
-    .vk-link{
+    .header-mobile .vk-link{
         width: 40px;
         height: 40px;
         flex-shrink: 0;
     }
 
-    .vk-icon{
+    .header-mobile .vk-icon{
         width: 24px;
         height: 24px;
-    }
-
-    /* Кнопка мобильного меню */
-    .mobile-menu-toggle{
-        display: block;
-        background: #133E71;
-        color: #fff;
-        border: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 24px;
-        z-index: 1000;
-        transition: all 0.3s ease;
-        line-height: 1;
-        flex-shrink: 0;
-    }
-
-    .mobile-menu-toggle:hover{
-        background: #0a2a4a;
-        transform: scale(1.05);
     }
 
     /* Кнопка обратного звонка в шапке */

@@ -31,7 +31,9 @@
     
     // Получаем цену
     $price = '';
-    if ($product->productStatus && $product->productStatus->name === 'Резерв') {
+    if (!$product->productStatus || !$product->productStatus->show) {
+        $price = 'Снят с продажи';
+    } elseif ($product->productStatus && $product->productStatus->name === 'Резерв') {
         $price = 'Станок в резерве';
     } elseif ($product->productPriceAll) {
         if ($product->productPriceAll->show) {
@@ -56,7 +58,7 @@
 <meta property="og:description" content="{{ $description }}">
 <meta property="og:image" content="{{ $imageUrl }}">
 <meta property="og:url" content="{{ $pageUrl }}">
-@if($price && $product->productPriceAll && $product->productPriceAll->show)
+@if($product->productStatus && $product->productStatus->show && $product->productPriceAll && $product->productPriceAll->show)
 <meta property="product:price:amount" content="{{ $product->productPriceAll->price }}">
 <meta property="product:price:currency" content="RUB">
 @endif
@@ -121,7 +123,12 @@
                 @endif
             </div>
 
-            @if($product->productStatus && $product->productStatus->name === 'Резерв')
+            @if(!$product->productStatus || !$product->productStatus->show)
+            <div class="advertise-price">
+                <div class="price-label">СТАТУС</div>
+                <div class="price-value" style="color: #133E71;">Снят с продажи</div>
+            </div>
+            @elseif($product->productStatus && $product->productStatus->name === 'Резерв')
             <div class="advertise-price">
                 <div class="price-label">СТАТУС</div>
                 <div class="price-value" style="color: #133E71;">Станок в резерве</div>
@@ -225,7 +232,14 @@
                 </div>
                 @endif
 
-                @if($product->productStatus && $product->productStatus->name === 'Резерв')
+                @if(!$product->productStatus || !$product->productStatus->show)
+                <div class="info-block">
+                    <h2 class="info-block-title">Условия продажи</h2>
+                    <div class="info-block-content">
+                        <p><strong style="color: #133E71;">Снят с продажи</strong></p>
+                    </div>
+                </div>
+                @elseif($product->productStatus && $product->productStatus->name === 'Резерв')
                 <div class="info-block">
                     <h2 class="info-block-title">Условия продажи</h2>
                     <div class="info-block-content">

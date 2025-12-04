@@ -34,44 +34,84 @@
 <body>
     <header class="header">
         <div class="box-container">
-            <div class="header-content">
-                <div class="header-top">
+            <!-- Десктопная версия -->
+            <div class="header-desktop">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Открыть меню">☰</button>
+
+                <div class="header-content">
                     <div class="logo">
                         <img src="assets/img/unique-logo.png" alt="Unique Logo">
                     </div>
+                    
+                    <nav class="menu" id="mainMenu">
+                        <a href="https://uniqset.com/" class="menu-link">Главная</a>
+                        <a href="https://uniqset.com/prodazha-oborudovaniya/" class="menu-link">Услуги</a>
+                        <a href="/" class="menu-link">Интернет магазин</a>
+                        <a href="https://uniqset.com/otgruzki/" class="menu-link">Отгрузки</a>
+                        <a href="https://uniqset.com/o-nas/" class="menu-link">Компания</a>
+                        <a href="https://uniqset.com/o-nas/contacts/" class="menu-link">Контакты</a>
+                    </nav>
                     
                     <div class="header-right">
                         <a href="https://vk.com/uniqset" class="vk-link" target="_blank">
                             <img src="assets/img/vk-logo.svg" alt="VK Icon" class="vk-icon">
                         </a>
                         
-                        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Открыть меню">☰</button>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <span class="contact-icon phone-icon"></span>
+                                <span class="contact-text">8 (4842) 59-65-75</span>
+                            </div>
+                            <div class="contact-item">
+                                <span class="contact-icon email-icon"></span>
+                                <span class="contact-text">info@uniqset.com</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="header-bottom">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <span class="contact-icon phone-icon"></span>
-                            <span class="contact-text">8 (4842) 59-65-75</span>
+            </div>
+
+            <!-- Мобильная версия -->
+            <div class="header-mobile">
+                <div class="header-content">
+                    <div class="header-top">
+                        <div class="logo">
+                            <img src="assets/img/unique-logo.png" alt="Unique Logo">
                         </div>
-                        <div class="contact-item">
-                            <span class="contact-icon email-icon"></span>
-                            <span class="contact-text">info@uniqset.com</span>
+                        
+                        <div class="header-right">
+                            <a href="https://vk.com/uniqset" class="vk-link" target="_blank">
+                                <img src="assets/img/vk-logo.svg" alt="VK Icon" class="vk-icon">
+                            </a>
+                            
+                            <button class="mobile-menu-toggle" id="mobileMenuToggleMobile" aria-label="Открыть меню">☰</button>
                         </div>
                     </div>
                     
-                    <button class="header-callback-button" id="headerCallbackButton">Обратный звонок</button>
+                    <div class="header-bottom">
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <span class="contact-icon phone-icon"></span>
+                                <span class="contact-text">8 (4842) 59-65-75</span>
+                            </div>
+                            <div class="contact-item">
+                                <span class="contact-icon email-icon"></span>
+                                <span class="contact-text">info@uniqset.com</span>
+                            </div>
+                        </div>
+                        
+                        <button class="header-callback-button" id="headerCallbackButton">Обратный звонок</button>
+                    </div>
+                    
+                    <nav class="menu" id="mainMenuMobile">
+                        <a href="https://uniqset.com/" class="menu-link">Главная</a>
+                        <a href="https://uniqset.com/prodazha-oborudovaniya/" class="menu-link">Услуги</a>
+                        <a href="/" class="menu-link">Интернет магазин</a>
+                        <a href="https://uniqset.com/otgruzki/" class="menu-link">Отгрузки</a>
+                        <a href="https://uniqset.com/o-nas/" class="menu-link">Компания</a>
+                        <a href="https://uniqset.com/o-nas/contacts/" class="menu-link">Контакты</a>
+                    </nav>
                 </div>
-                
-                <nav class="menu" id="mainMenu">
-                    <a href="https://uniqset.com/" class="menu-link">Главная</a>
-                    <a href="https://uniqset.com/prodazha-oborudovaniya/" class="menu-link">Услуги</a>
-                    <a href="/" class="menu-link">Интернет магазин</a>
-                    <a href="https://uniqset.com/otgruzki/" class="menu-link">Отгрузки</a>
-                    <a href="https://uniqset.com/o-nas/" class="menu-link">Компания</a>
-                    <a href="https://uniqset.com/o-nas/contacts/" class="menu-link">Контакты</a>
-                </nav>
             </div>
         </div>
     </header>
@@ -138,7 +178,7 @@
 
     @stack('scripts')
     <script>
-        // Мобильное меню
+        // Мобильное меню для десктопной версии
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
         const mainMenu = document.getElementById('mainMenu');
 
@@ -162,6 +202,34 @@
                 if (!mainMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
                     mainMenu.classList.remove('active');
                     mobileMenuToggle.textContent = '☰';
+                }
+            });
+        }
+
+        // Мобильное меню для мобильной версии
+        const mobileMenuToggleMobile = document.getElementById('mobileMenuToggleMobile');
+        const mainMenuMobile = document.getElementById('mainMenuMobile');
+
+        if (mobileMenuToggleMobile && mainMenuMobile) {
+            mobileMenuToggleMobile.addEventListener('click', function() {
+                mainMenuMobile.classList.toggle('active');
+                this.textContent = mainMenuMobile.classList.contains('active') ? '✕' : '☰';
+            });
+
+            // Закрытие меню при клике на ссылку
+            const menuLinksMobile = mainMenuMobile.querySelectorAll('.menu-link');
+            menuLinksMobile.forEach(link => {
+                link.addEventListener('click', function() {
+                    mainMenuMobile.classList.remove('active');
+                    mobileMenuToggleMobile.textContent = '☰';
+                });
+            });
+
+            // Закрытие меню при клике вне его области
+            document.addEventListener('click', function(e) {
+                if (!mainMenuMobile.contains(e.target) && !mobileMenuToggleMobile.contains(e.target)) {
+                    mainMenuMobile.classList.remove('active');
+                    mobileMenuToggleMobile.textContent = '☰';
                 }
             });
         }
