@@ -1,5 +1,24 @@
 @extends('Layer.MainLayer')
 
+@section('title', 'Каталог ЮНИК С')
+
+@section('meta')
+<meta name="description" content="Продажа бывшего в употреблении промышленного оборудования: металлорежущих и деревообрабатывающих станков, прессового и кузнечного оборудования, спецтехники и оборудования для погрузочно-разгрузочных работ">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Каталог ЮНИК С">
+<meta property="og:description" content="Продажа бывшего в употреблении промышленного оборудования: металлорежущих и деревообрабатывающих станков, прессового и кузнечного оборудования, спецтехники и оборудования для погрузочно-разгрузочных работ">
+<meta property="og:image" content="{{ url('/assets/img/catalog.jpeg') }}">
+<meta property="og:url" content="{{ url()->current() }}">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Каталог ЮНИК С">
+<meta name="twitter:description" content="Продажа бывшего в употреблении промышленного оборудования: металлорежущих и деревообрабатывающих станков, прессового и кузнечного оборудования, спецтехники и оборудования для погрузочно-разгрузочных работ">
+<meta name="twitter:image" content="{{ url('/assets/img/catalog.jpeg') }}">
+@endsection
+
 @section('content')
 <div class="box-container">
     <div class="breadcrumbs">

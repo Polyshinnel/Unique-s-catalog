@@ -1,5 +1,73 @@
 @extends('Layer.MainLayer')
 
+@php
+    // Получаем главное изображение товара
+    $mainImage = $product->mainImage ?: ($product->productImages->count() > 0 ? $product->productImages->first() : null);
+    $imageUrl = $mainImage ? asset('storage/' . $mainImage->image) : url('/assets/img/stanok.webp');
+    
+    // Формируем описание
+    $description = '';
+    if ($product->productCharacteristics && $product->productCharacteristics->main_information) {
+        // Берем первые 200 символов основной информации, очищая HTML
+        $description = strip_tags($product->productCharacteristics->main_information);
+        $description = mb_substr($description, 0, 200);
+        if (mb_strlen($product->productCharacteristics->main_information) > 200) {
+            $description .= '...';
+        }
+    } else {
+        // Если основной информации нет, формируем описание из доступных данных
+        $descriptionParts = [];
+        if ($product->category) {
+            $descriptionParts[] = $product->category->name;
+        }
+        if ($product->productState) {
+            $descriptionParts[] = 'Состояние: ' . $product->productState->name;
+        }
+        if ($product->productAvailable) {
+            $descriptionParts[] = 'Наличие: ' . $product->productAvailable->name;
+        }
+        $description = !empty($descriptionParts) ? implode('. ', $descriptionParts) : $product->name;
+    }
+    
+    // Получаем цену
+    $price = '';
+    if ($product->productStatus && $product->productStatus->name === 'Резерв') {
+        $price = 'Станок в резерве';
+    } elseif ($product->productPriceAll) {
+        if ($product->productPriceAll->show) {
+            $price = number_format($product->productPriceAll->price, 0, ',', ' ') . ' ₽';
+        } else {
+            $price = 'По запросу';
+        }
+    }
+    
+    // Формируем полный URL страницы
+    $pageUrl = route('advertise', ['id' => $product->id]);
+@endphp
+
+@section('title', $product->name . ' - Каталог ЮНИК С')
+
+@section('meta')
+<meta name="description" content="{{ $description }}">
+
+<!-- Open Graph -->
+<meta property="og:type" content="product">
+<meta property="og:title" content="{{ $product->name }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:image" content="{{ $imageUrl }}">
+<meta property="og:url" content="{{ $pageUrl }}">
+@if($price && $product->productPriceAll && $product->productPriceAll->show)
+<meta property="product:price:amount" content="{{ $product->productPriceAll->price }}">
+<meta property="product:price:currency" content="RUB">
+@endif
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $product->name }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $imageUrl }}">
+@endsection
+
 @section('content')
 <div class="box-container">
     <div class="breadcrumbs">

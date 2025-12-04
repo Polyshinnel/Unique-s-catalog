@@ -9,7 +9,27 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" type="image/png" href="assets/img/unique-favicon.png">
     <link rel="apple-touch-icon" href="assets/img/unique-favicon.png">
-    <title>Каталог Юник-с</title>
+    <title>@yield('title', 'Каталог Юник С')</title>
+    
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        <!-- Мета-теги по умолчанию для каталога -->
+        <meta name="description" content="Продажа бывшего в употреблении промышленного оборудования: металлорежущих и деревообрабатывающих станков, прессового и кузнечного оборудования, спецтехники и оборудования для погрузочно-разгрузочных работ">
+        
+        <!-- Open Graph -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Каталог ЮНИК С">
+        <meta property="og:description" content="Продажа бывшего в употреблении промышленного оборудования: металлорежущих и деревообрабатывающих станков, прессового и кузнечного оборудования, спецтехники и оборудования для погрузочно-разгрузочных работ">
+        <meta property="og:image" content="{{ url('/assets/img/catalog.jpeg') }}">
+        <meta property="og:url" content="{{ url()->current() }}">
+        
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Каталог ЮНИК С">
+        <meta name="twitter:description" content="Продажа бывшего в употреблении промышленного оборудования: металлорежущих и деревообрабатывающих станков, прессового и кузнечного оборудования, спецтехники и оборудования для погрузочно-разгрузочных работ">
+        <meta name="twitter:image" content="{{ url('/assets/img/catalog.jpeg') }}">
+    @endif
 </head>
 <body>
     <header class="header">
