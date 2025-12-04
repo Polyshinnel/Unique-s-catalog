@@ -14,26 +14,22 @@
 <body>
     <header class="header">
         <div class="box-container">
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Открыть меню">☰</button>
             <div class="header-content">
-                <div class="logo">
-                    <img src="assets/img/unique-logo.png" alt="Unique Logo">
+                <div class="header-top">
+                    <div class="logo">
+                        <img src="assets/img/unique-logo.png" alt="Unique Logo">
+                    </div>
+                    
+                    <div class="header-right">
+                        <a href="https://vk.com/uniqset" class="vk-link" target="_blank">
+                            <img src="assets/img/vk-logo.svg" alt="VK Icon" class="vk-icon">
+                        </a>
+                        
+                        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Открыть меню">☰</button>
+                    </div>
                 </div>
                 
-                <nav class="menu" id="mainMenu">
-                    <a href="https://uniqset.com/" class="menu-link">Главная</a>
-                    <a href="https://uniqset.com/prodazha-oborudovaniya/" class="menu-link">Услуги</a>
-                    <a href="/" class="menu-link">Интернет магазин</a>
-                    <a href="https://uniqset.com/otgruzki/" class="menu-link">Отгрузки</a>
-                    <a href="https://uniqset.com/o-nas/" class="menu-link">Компания</a>
-                    <a href="https://uniqset.com/o-nas/contacts/" class="menu-link">Контакты</a>
-                </nav>
-                
-                <div class="header-right">
-                    <a href="https://vk.com/uniqset" class="vk-link" target="_blank">
-                        <img src="assets/img/vk-logo.svg" alt="VK Icon" class="vk-icon">
-                    </a>
-                    
+                <div class="header-bottom">
                     <div class="contact-info">
                         <div class="contact-item">
                             <span class="contact-icon phone-icon"></span>
@@ -44,7 +40,18 @@
                             <span class="contact-text">info@uniqset.com</span>
                         </div>
                     </div>
+                    
+                    <button class="header-callback-button" id="headerCallbackButton">Обратный звонок</button>
                 </div>
+                
+                <nav class="menu" id="mainMenu">
+                    <a href="https://uniqset.com/" class="menu-link">Главная</a>
+                    <a href="https://uniqset.com/prodazha-oborudovaniya/" class="menu-link">Услуги</a>
+                    <a href="/" class="menu-link">Интернет магазин</a>
+                    <a href="https://uniqset.com/otgruzki/" class="menu-link">Отгрузки</a>
+                    <a href="https://uniqset.com/o-nas/" class="menu-link">Компания</a>
+                    <a href="https://uniqset.com/o-nas/contacts/" class="menu-link">Контакты</a>
+                </nav>
             </div>
         </div>
     </header>
@@ -135,6 +142,25 @@
                 if (!mainMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
                     mainMenu.classList.remove('active');
                     mobileMenuToggle.textContent = '☰';
+                }
+            });
+        }
+
+        // Кнопка обратного звонка в шапке
+        const headerCallbackButton = document.getElementById('headerCallbackButton');
+        if (headerCallbackButton) {
+            headerCallbackButton.addEventListener('click', function() {
+                // Прокрутка к форме обратного звонка в футере
+                const footerForm = document.querySelector('.footer-recall-form');
+                if (footerForm) {
+                    footerForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Фокус на поле ввода телефона
+                    setTimeout(function() {
+                        const phoneInput = document.getElementById('footer-phone');
+                        if (phoneInput) {
+                            phoneInput.focus();
+                        }
+                    }, 500);
                 }
             });
         }

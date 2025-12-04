@@ -23,6 +23,9 @@
                     </div>
                 </div>
 
+                <button type="button" class="mobile-filters-toggle" id="mobileFiltersToggle">Фильтр</button>
+
+                <div class="mobile-filters-container" id="mobileFiltersContainer">
                 <div class="filter-block">
                     <h3 class="filter-title">По цене</h3>
                     <div class="filter-options">
@@ -122,6 +125,7 @@
 
                 <button type="submit" class="filter-apply-button">Применить фильтры</button>
                 <a href="{{ route('home') }}" class="filter-reset-button">Сбросить фильтры</a>
+                </div>
             </aside>
 
             <div class="catalog-main">

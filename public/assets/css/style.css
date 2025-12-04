@@ -33,6 +33,18 @@ body{
     width: 100%;
 }
 
+.header-top{
+    display: none;
+}
+
+.header-bottom{
+    display: none;
+}
+
+.header-callback-button{
+    display: none;
+}
+
 .logo img{
     height: 60px;
 }
@@ -1382,19 +1394,37 @@ body{
     }
 
     .header-content{
+        display: flex;
         flex-direction: column;
         gap: 15px;
-        align-items: flex-start;
+    }
+
+    .header-top{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
     }
 
     .logo{
-        width: 100%;
+        flex: 0 0 auto;
         display: flex;
-        justify-content: center;
+        align-items: center;
     }
 
     .logo img{
         height: 50px;
+    }
+
+    .header-bottom{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        width: 100%;
+        flex-wrap: wrap;
     }
 
     .menu{
@@ -1402,6 +1432,15 @@ body{
         flex-direction: column;
         gap: 10px;
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        margin-top: 15px;
     }
 
     .menu.active{
@@ -1414,31 +1453,47 @@ body{
     }
 
     .header-right{
-        width: 100%;
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        flex: 0 0 auto;
     }
 
     .contact-info{
-        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
     }
 
     .contact-item{
-        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 6px;
         justify-content: flex-start;
     }
 
     .contact-text{
         font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .vk-link{
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+
+    .vk-icon{
+        width: 24px;
+        height: 24px;
     }
 
     /* Кнопка мобильного меню */
     .mobile-menu-toggle{
         display: block;
-        position: absolute;
-        top: 15px;
-        right: 15px;
         background: #133E71;
         color: #fff;
         border: none;
@@ -1450,11 +1505,34 @@ body{
         z-index: 1000;
         transition: all 0.3s ease;
         line-height: 1;
+        flex-shrink: 0;
     }
 
     .mobile-menu-toggle:hover{
         background: #0a2a4a;
         transform: scale(1.05);
+    }
+
+    /* Кнопка обратного звонка в шапке */
+    .header-callback-button{
+        display: block;
+        background: #e53b24;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .header-callback-button:hover{
+        background: #c9321f;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(229, 59, 36, 0.3);
     }
 
     .header-content{
@@ -1495,12 +1573,59 @@ body{
         width: 100%;
         position: static;
         padding: 15px;
-        order: 2;
+        order: 1;
+    }
+
+    /* Кнопка открытия фильтров на мобильных */
+    .mobile-filters-toggle{
+        display: block;
+        width: 100%;
+        height: 45px;
+        background: #133E71;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .mobile-filters-toggle:hover{
+        background: #0a2a4a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(19, 62, 113, 0.3);
+    }
+
+    .mobile-filters-toggle.active{
+        background: #e53b24;
+    }
+
+    .mobile-filters-toggle.active:hover{
+        background: #c9321f;
+    }
+
+    /* Контейнер дополнительных фильтров */
+    .mobile-filters-container{
+        display: none;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-filters-container.active{
+        display: block;
     }
 
     .filter-block{
         margin-bottom: 20px;
         padding-bottom: 15px;
+    }
+
+    /* Первый блок (поиск) всегда видим */
+    .filters-sidebar > .filter-block:first-child{
+        display: block;
     }
 
     .filter-title{
@@ -1550,7 +1675,7 @@ body{
     .catalog-main{
         grid-template-columns: 1fr;
         gap: 15px;
-        order: 1;
+        order: 2;
     }
 
     /* Карточка товара */
@@ -1827,10 +1952,36 @@ body{
     }
 }
 
-/* Кнопка мобильного меню (скрыта на десктопе) */
+/* Десктопная версия */
 @media (min-width: 769px){
     .mobile-menu-toggle{
         display: none;
+    }
+
+    .header-top{
+        display: none;
+    }
+
+    .header-bottom{
+        display: none;
+    }
+
+    .header-content{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header-callback-button{
+        display: none;
+    }
+
+    .mobile-filters-toggle{
+        display: none;
+    }
+
+    .mobile-filters-container{
+        display: block !important;
     }
 }
 
@@ -1844,6 +1995,18 @@ body{
         padding: 10px 0;
     }
 
+    .header-top{
+        gap: 10px;
+    }
+
+    .header-bottom{
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
     .logo img{
         height: 40px;
     }
@@ -1852,8 +2015,45 @@ body{
         width: 35px;
         height: 35px;
         font-size: 20px;
-        top: 10px;
-        right: 10px;
+    }
+
+    .vk-link{
+        width: 35px;
+        height: 35px;
+    }
+
+    .vk-icon{
+        width: 20px;
+        height: 20px;
+    }
+
+    .contact-info{
+        flex-direction: row;
+        gap: 10px;
+        flex-wrap: wrap;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .contact-item{
+        flex: 0 0 auto;
+    }
+
+    .contact-text{
+        font-size: 12px;
+    }
+
+    .header-callback-button{
+        padding: 8px 15px;
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+
+    .mobile-filters-toggle{
+        height: 40px;
+        font-size: 14px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     .catalog-title{

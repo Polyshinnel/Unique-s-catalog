@@ -252,6 +252,18 @@ if (searchButton && searchInput) {
     });
 }
 
+// Мобильные фильтры
+const mobileFiltersToggle = document.getElementById('mobileFiltersToggle');
+const mobileFiltersContainer = document.getElementById('mobileFiltersContainer');
+
+if (mobileFiltersToggle && mobileFiltersContainer) {
+    mobileFiltersToggle.addEventListener('click', function() {
+        mobileFiltersContainer.classList.toggle('active');
+        this.classList.toggle('active');
+        this.textContent = mobileFiltersContainer.classList.contains('active') ? 'Скрыть фильтры' : 'Фильтр';
+    });
+}
+
 // Мобильное меню
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const mainMenu = document.getElementById('mainMenu');
