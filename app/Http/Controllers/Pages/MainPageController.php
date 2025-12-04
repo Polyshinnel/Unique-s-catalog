@@ -14,8 +14,7 @@ class MainPageController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $query = Product::with(['category', 'productState', 'productAvailable', 'productLocation', 'productPrice', 'mainImage'])
-            ->orderBy('last_system_update', 'desc');
+        $query = Product::with(['category', 'productState', 'productAvailable', 'productLocation', 'productPrice', 'mainImage']);
 
         // Фильтр по поиску
         if ($request->has('search') && $request->search) {
@@ -66,6 +65,27 @@ class MainPageController extends Controller
         // Фильтр по состоянию
         if ($request->has('condition') && is_array($request->condition) && count($request->condition) > 0) {
             $query->whereIn('product_state_id', $request->condition);
+        }
+
+        // Сортировка
+        $sort = $request->get('sort', 'default');
+        switch ($sort) {
+            case 'price_desc':
+                $query->orderByRaw('(SELECT MAX(price) FROM product_prices WHERE product_prices.product_id = products.id AND product_prices.show = 1) DESC');
+                break;
+            case 'price_asc':
+                $query->orderByRaw('(SELECT MIN(price) FROM product_prices WHERE product_prices.product_id = products.id AND product_prices.show = 1) ASC');
+                break;
+            case 'newest':
+                $query->orderBy('last_system_update', 'desc');
+                break;
+            case 'oldest':
+                $query->orderBy('last_system_update', 'asc');
+                break;
+            case 'default':
+            default:
+                $query->orderBy('last_system_update', 'desc');
+                break;
         }
 
         // Пагинация

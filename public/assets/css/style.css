@@ -673,6 +673,48 @@ body{
 
 .catalog-main{
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.sort-container{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.sort-label{
+    color: #133E71;
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.sort-select{
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 250px;
+}
+
+.sort-select:focus{
+    outline: none;
+    border-color: #133E71;
+    box-shadow: 0 0 0 3px rgba(19, 62, 113, 0.1);
+}
+
+.sort-select:hover{
+    border-color: #133E71;
+}
+
+.products-wrapper{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
@@ -1206,7 +1248,6 @@ body{
     margin-top: 30px;
     display: flex;
     justify-content: center;
-    grid-column: 1 / -1;
 }
 
 .pagination-nav{
@@ -1288,7 +1329,6 @@ body{
     display: flex;
     justify-content: center;
     margin-top: 30px;
-    grid-column: 1 / -1;
 }
 
 .catalog-main nav .d-flex{
@@ -1673,9 +1713,30 @@ body{
 
     /* Основной контент каталога */
     .catalog-main{
-        grid-template-columns: 1fr;
         gap: 15px;
         order: 2;
+    }
+
+    .sort-container{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .sort-label{
+        font-size: 14px;
+    }
+
+    .sort-select{
+        width: 100%;
+        min-width: auto;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .products-wrapper{
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     /* Карточка товара */
@@ -1934,6 +1995,10 @@ body{
     }
 
     .catalog-main{
+        gap: 20px;
+    }
+
+    .products-wrapper{
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
         gap: 20px;
     }

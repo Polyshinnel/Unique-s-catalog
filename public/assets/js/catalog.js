@@ -264,30 +264,10 @@ if (mobileFiltersToggle && mobileFiltersContainer) {
     });
 }
 
-// Мобильное меню
-const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-const mainMenu = document.getElementById('mainMenu');
-
-if (mobileMenuToggle && mainMenu) {
-    mobileMenuToggle.addEventListener('click', function() {
-        mainMenu.classList.toggle('active');
-        this.textContent = mainMenu.classList.contains('active') ? '✕' : '☰';
-    });
-
-    // Закрытие меню при клике на ссылку
-    const menuLinks = mainMenu.querySelectorAll('.menu-link');
-    menuLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            mainMenu.classList.remove('active');
-            mobileMenuToggle.textContent = '☰';
-        });
-    });
-
-    // Закрытие меню при клике вне его области
-    document.addEventListener('click', function(e) {
-        if (!mainMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-            mainMenu.classList.remove('active');
-            mobileMenuToggle.textContent = '☰';
-        }
+// Сортировка
+const sortSelect = document.getElementById('sortSelect');
+if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+        document.getElementById('filterForm').submit();
     });
 }

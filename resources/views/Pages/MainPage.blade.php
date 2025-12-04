@@ -129,41 +129,54 @@
             </aside>
 
             <div class="catalog-main">
+                <div class="sort-container">
+                    <label for="sortSelect" class="sort-label">Сортировка:</label>
+                    <select name="sort" id="sortSelect" class="sort-select">
+                        <option value="default" {{ request('sort') == 'default' || !request('sort') ? 'selected' : '' }}>По умолчанию</option>
+                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>По убыванию цены</option>
+                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>По возрастанию цены</option>
+                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Самые новые</option>
+                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Самые ранние</option>
+                    </select>
+                </div>
+
                 @if($products->count() > 0)
-                    @foreach($products as $product)
-                        <div class="product-card">
-                            <div class="product-image">
-                                @if($product->mainImage)
-                                    <img src="{{ asset('storage/' . $product->mainImage->image) }}" alt="{{ $product->name }}">
-                                @elseif($product->productImages->count() > 0)
-                                    <img src="{{ asset('storage/' . $product->productImages->first()->image) }}" alt="{{ $product->name }}">
-                                @else
-                                    <img src="/assets/img/stanok.webp" alt="Станок">
-                                @endif
-                            </div>
-                            <div class="product-info">
-                                <div class="product-article">Арт: {{ $product->sku }}</div>
-                                <h4 class="product-name">{{ $product->name }}</h4>
-                                @if($product->category)
-                                    <div class="product-category">{{ $product->category->name }}</div>
-                                @endif
-                                <div class="product-status-line">
-                                    @if($product->productState)
-                                        <span class="product-condition">{{ $product->productState->name }}</span>
-                                    @endif
-                                    @if($product->productAvailable)
-                                        <span class="product-availability">{{ $product->productAvailable->name }}</span>
+                    <div class="products-wrapper">
+                        @foreach($products as $product)
+                            <div class="product-card">
+                                <div class="product-image">
+                                    @if($product->mainImage)
+                                        <img src="{{ asset('storage/' . $product->mainImage->image) }}" alt="{{ $product->name }}">
+                                    @elseif($product->productImages->count() > 0)
+                                        <img src="{{ asset('storage/' . $product->productImages->first()->image) }}" alt="{{ $product->name }}">
+                                    @else
+                                        <img src="/assets/img/stanok.webp" alt="Станок">
                                     @endif
                                 </div>
-                                @if($product->productPrice)
-                                    <div class="product-price">{{ number_format($product->productPrice->price, 0, ',', ' ') }} ₽</div>
-                                @else
-                                    <div class="product-price">Цена не указана</div>
-                                @endif
-                                <a href="{{ route('advertise') }}?id={{ $product->id }}" class="product-button">Подробнее</a>
+                                <div class="product-info">
+                                    <div class="product-article">Арт: {{ $product->sku }}</div>
+                                    <h4 class="product-name">{{ $product->name }}</h4>
+                                    @if($product->category)
+                                        <div class="product-category">{{ $product->category->name }}</div>
+                                    @endif
+                                    <div class="product-status-line">
+                                        @if($product->productState)
+                                            <span class="product-condition">{{ $product->productState->name }}</span>
+                                        @endif
+                                        @if($product->productAvailable)
+                                            <span class="product-availability">{{ $product->productAvailable->name }}</span>
+                                        @endif
+                                    </div>
+                                    @if($product->productPrice)
+                                        <div class="product-price">{{ number_format($product->productPrice->price, 0, ',', ' ') }} ₽</div>
+                                    @else
+                                        <div class="product-price">Цена не указана</div>
+                                    @endif
+                                    <a href="{{ route('advertise') }}?id={{ $product->id }}" class="product-button">Подробнее</a>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
 
                     <!-- Пагинация -->
                     <div class="pagination-wrapper">
