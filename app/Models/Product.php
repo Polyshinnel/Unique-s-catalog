@@ -36,6 +36,11 @@ class Product extends Model
         return $this->hasOne(ProductPrice::class)->where('show', true);
     }
 
+    public function productPriceAll()
+    {
+        return $this->hasOne(ProductPrice::class);
+    }
+
     public function productImages()
     {
         return $this->hasMany(ProductImages::class);
@@ -54,5 +59,10 @@ class Product extends Model
     public function productCharacteristics()
     {
         return $this->hasOne(ProductCharacteristics::class);
+    }
+
+    public function productStatus()
+    {
+        return $this->belongsTo(ProductStatus::class, 'product_status_id');
     }
 }

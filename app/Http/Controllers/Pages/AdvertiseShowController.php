@@ -22,10 +22,12 @@ class AdvertiseShowController extends Controller
             'productAvailable',
             'productLocation',
             'productPrice',
+            'productPriceAll',
             'productImages',
             'mainImage',
             'productManager',
-            'productCharacteristics'
+            'productCharacteristics',
+            'productStatus'
         ])->findOrFail($productId);
 
         return view('Pages.AdvertiseShowPage', compact('product'));

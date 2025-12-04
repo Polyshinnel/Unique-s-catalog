@@ -41,6 +41,16 @@ return new class extends Migration
                 'status_color' => '#17A2B8',
                 'show' => false,
             ],
+            [
+                'name' => 'Ревизия',
+                'status_color' => '#17A2B8',
+                'show' => false,
+            ],
+            [
+                'name' => 'Холд',
+                'status_color' => '#17A2B8',
+                'show' => false,
+            ],
         ];
 
         foreach ($dataItems as $dataItem) {

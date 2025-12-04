@@ -53,10 +53,19 @@
                 @endif
             </div>
 
-            @if($product->productPrice)
+            @if($product->productStatus && $product->productStatus->name === 'Резерв')
+            <div class="advertise-price">
+                <div class="price-label">СТАТУС</div>
+                <div class="price-value" style="color: #133E71;">Станок в резерве</div>
+            </div>
+            @elseif($product->productPriceAll)
             <div class="advertise-price">
                 <div class="price-label">ЦЕНА</div>
-                <div class="price-value">{{ number_format($product->productPrice->price, 0, ',', ' ') }} ₽</div>
+                @if($product->productPriceAll->show)
+                    <div class="price-value">{{ number_format($product->productPriceAll->price, 0, ',', ' ') }} ₽</div>
+                @else
+                    <div class="price-value">По запросу</div>
+                @endif
             </div>
             @endif
 
@@ -148,14 +157,25 @@
                 </div>
                 @endif
 
-                @if($product->productPrice)
+                @if($product->productStatus && $product->productStatus->name === 'Резерв')
                 <div class="info-block">
                     <h2 class="info-block-title">Условия продажи</h2>
                     <div class="info-block-content">
-                        <p><strong>ЦЕНА: {{ number_format($product->productPrice->price, 0, ',', ' ') }} ₽</strong></p>
-                        @if($product->productPrice->comment)
+                        <p><strong style="color: #133E71;">Станок в резерве</strong></p>
+                    </div>
+                </div>
+                @elseif($product->productPriceAll)
+                <div class="info-block">
+                    <h2 class="info-block-title">Условия продажи</h2>
+                    <div class="info-block-content">
+                        @if($product->productPriceAll->show)
+                            <p><strong>ЦЕНА: {{ number_format($product->productPriceAll->price, 0, ',', ' ') }} ₽</strong></p>
+                        @else
+                            <p><strong>ЦЕНА: По запросу</strong></p>
+                        @endif
+                        @if($product->productPriceAll->comment)
                         <div class="success-text">
-                            {!! $product->productPrice->comment !!}
+                            {!! $product->productPriceAll->comment !!}
                         </div>
                         @endif
                     </div>

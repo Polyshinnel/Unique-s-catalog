@@ -14,7 +14,7 @@ class MainPageController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $query = Product::with(['category', 'productState', 'productAvailable', 'productLocation', 'productPrice', 'mainImage']);
+        $query = Product::with(['category', 'productState', 'productAvailable', 'productLocation', 'productPrice', 'productPriceAll', 'mainImage', 'productStatus']);
 
         // Фильтр по поиску
         if ($request->has('search') && $request->search) {

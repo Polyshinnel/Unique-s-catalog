@@ -175,8 +175,14 @@
                                             <span class="product-availability">{{ $product->productAvailable->name }}</span>
                                         @endif
                                     </div>
-                                    @if($product->productPrice)
-                                        <div class="product-price">{{ number_format($product->productPrice->price, 0, ',', ' ') }} ₽</div>
+                                    @if($product->productStatus && $product->productStatus->name === 'Резерв')
+                                        <div class="product-price" style="color: #133E71;">Станок в резерве</div>
+                                    @elseif($product->productPriceAll)
+                                        @if($product->productPriceAll->show)
+                                            <div class="product-price">{{ number_format($product->productPriceAll->price, 0, ',', ' ') }} ₽</div>
+                                        @else
+                                            <div class="product-price">По запросу</div>
+                                        @endif
                                     @else
                                         <div class="product-price">Цена не указана</div>
                                     @endif

@@ -20,7 +20,7 @@ return new class extends Migration
 
         $dataItems = [
             [
-                'name' => 'Новые'
+                'name' => 'Новое'
             ],
             [
                 'name' => 'Б.У'
