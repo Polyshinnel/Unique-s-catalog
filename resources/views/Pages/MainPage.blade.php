@@ -222,6 +222,11 @@
                         @endforeach
                     </div>
 
+                    <!-- Количество объявлений -->
+                    <div style="margin: 20px 0; text-align: center; color: #666; font-size: 14px;">
+                        Найдено объявлений: {{ $products->total() }}
+                    </div>
+
                     <!-- Пагинация -->
                     <div class="pagination-wrapper">
                         {{ $products->links() }}
