@@ -26,7 +26,10 @@ class MainPageController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('sku', 'like', "%{$search}%");
+                  ->orWhere('sku', 'like', "%{$search}%")
+                  ->orWhereHas('productTags', function($tagQuery) use ($search) {
+                      $tagQuery->where('tag', 'like', "%{$search}%");
+                  });
             });
         }
 
@@ -126,7 +129,10 @@ class MainPageController extends Controller
                 $search = $request->search;
                 $countQuery->where(function($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('sku', 'like', "%{$search}%");
+                      ->orWhere('sku', 'like', "%{$search}%")
+                      ->orWhereHas('productTags', function($tagQuery) use ($search) {
+                          $tagQuery->where('tag', 'like', "%{$search}%");
+                      });
                 });
             }
             
