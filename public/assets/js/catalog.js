@@ -67,6 +67,24 @@ if (priceSliderMin && priceSliderMax) {
 
 // Обработчики для инпутов
 if (priceInputMinField && priceInputMaxField) {
+    // Автоматическое выделение текста при фокусе
+    priceInputMinField.addEventListener('focus', function() {
+        this.select();
+    });
+    
+    priceInputMaxField.addEventListener('focus', function() {
+        this.select();
+    });
+    
+    // Выделение при клике
+    priceInputMinField.addEventListener('click', function() {
+        this.select();
+    });
+    
+    priceInputMaxField.addEventListener('click', function() {
+        this.select();
+    });
+    
     priceInputMinField.addEventListener('input', function() {
         const minValue = parseInt(this.value) || parseInt(priceSliderMin.min);
         const maxValue = parseInt(priceInputMaxField.value) || parseInt(priceSliderMax.max);
