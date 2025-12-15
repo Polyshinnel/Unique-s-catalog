@@ -136,10 +136,10 @@
                     <div class="footer-content-block-item">
                         <h2>Услуги</h2>
                         <ul>
-                            <li><a href="#">Продажа оборудования</a></li>
-                            <li><a href="#">Выкуп оборудования</a></li>
-                            <li><a href="#">Продажа инструмента</a></li>
-                            <li><a href="#">Импорт оборудования</a></li>
+                            <li><a href="https://uniqset.com/prodazha-oborudovaniya/">Продажа оборудования</a></li>
+                            <li><a href="https://uniqset.com/vykup/">Выкуп оборудования</a></li>
+                            <li><a href="https://uniqset.com/prodazha-instrumenta/">Продажа инструмента</a></li>
+                            <li><a href="https://uniqset.com/import/">Импорт оборудования</a></li>
                         </ul>
                     </div>
 
