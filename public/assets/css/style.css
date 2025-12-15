@@ -10,6 +10,11 @@ body{
     font-weight: 400;
     font-style: normal;
     background-color: #f2f2f2;
+    /* Улучшение для iOS и touch-устройств */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    overscroll-behavior-y: none;
+    touch-action: pan-y;
 }
 
 .box-container{
@@ -1047,6 +1052,11 @@ body{
     cursor: pointer;
     box-sizing: border-box;
     position: relative;
+    /* Улучшение для touch-устройств */
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .gallery-main-image img{
@@ -1057,12 +1067,21 @@ body{
     cursor: pointer;
     display: block;
     box-sizing: border-box;
+    /* Улучшение для touch-устройств */
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
 }
 
 .gallery-thumbnails{
     display: flex;
     gap: 10px;
     overflow-x: auto;
+    /* Улучшение для touch-устройств */
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .gallery-thumb{
@@ -1075,6 +1094,11 @@ body{
     flex-shrink: 0;
     border: 2px solid transparent;
     transition: all 0.3s ease;
+    /* Улучшение для touch-устройств */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .gallery-thumb:hover{
@@ -1089,6 +1113,11 @@ body{
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Улучшение для touch-устройств */
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
 }
 
 .advertise-details{
@@ -1346,6 +1375,11 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    /* Улучшение для touch-устройств и свайпов */
+    touch-action: pan-x;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .lightbox-image-container{
@@ -1362,6 +1396,11 @@ body{
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+    /* Улучшение для touch-устройств */
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
 }
 
 .lightbox-close{
@@ -2200,6 +2239,32 @@ body{
         bottom: 10px;
         font-size: 14px;
         padding: 8px 15px;
+    }
+
+    /* Улучшение для свайпов на мобильных устройствах */
+    .gallery-thumbnails{
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Улучшение для iOS */
+    .lightbox-content{
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Визуальная подсказка для свайпов */
+    .lightbox-content::after{
+        content: '';
+        position: absolute;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 2px;
+        pointer-events: none;
     }
 }
 
