@@ -186,6 +186,9 @@
                                     @if($product->category)
                                         <div class="product-category">{{ $product->category->name }}</div>
                                     @endif
+                                    @if($product->productLocation)
+                                        <div class="product-location">{{ $product->productLocation->name }}</div>
+                                    @endif
                                     <div class="product-status-line">
                                         @if($product->productState)
                                             <span class="product-condition">{{ $product->productState->name }}</span>
