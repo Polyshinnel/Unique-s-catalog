@@ -111,6 +111,65 @@ class MainPageController extends Controller
         $availabilities = ProductAvailable::all();
         $states = ProductState::all();
 
+        // Подсчет товаров по регионам с учетом других фильтров
+        $locationCounts = [];
+        foreach ($locations as $location) {
+            $countQuery = Product::query();
+            
+            // Применяем все фильтры кроме фильтра по региону
+            $countQuery->whereHas('productStatus', function($q) {
+                $q->where('show', true);
+            });
+            
+            // Фильтр по поиску
+            if ($request->has('search') && $request->search) {
+                $search = $request->search;
+                $countQuery->where(function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('sku', 'like', "%{$search}%");
+                });
+            }
+            
+            // Фильтр по цене
+            if ($request->has('price_min') || $request->has('price_max')) {
+                $countQuery->whereHas('productPrice', function($q) use ($request) {
+                    $q->where('show', true);
+                    if ($request->has('price_min') && $request->price_min) {
+                        $q->where('price', '>=', (int)$request->price_min);
+                    }
+                    if ($request->has('price_max') && $request->price_max) {
+                        $q->where('price', '<=', (int)$request->price_max);
+                    }
+                });
+            }
+            
+            // Фильтр по категории
+            if ($request->has('category') && $request->category) {
+                $categoryId = $request->category;
+                $childCategories = Category::where('parent_id', $categoryId)->pluck('id')->toArray();
+                if (count($childCategories) > 0) {
+                    $countQuery->whereIn('category_id', array_merge([$categoryId], $childCategories));
+                } else {
+                    $countQuery->where('category_id', $categoryId);
+                }
+            }
+            
+            // Фильтр по доступности
+            if ($request->has('availability') && is_array($request->availability) && count($request->availability) > 0) {
+                $countQuery->whereIn('product_availability_id', $request->availability);
+            }
+            
+            // Фильтр по состоянию
+            if ($request->has('condition') && is_array($request->condition) && count($request->condition) > 0) {
+                $countQuery->whereIn('product_state_id', $request->condition);
+            }
+            
+            // Фильтруем по конкретному региону
+            $countQuery->where('product_location_id', $location->id);
+            
+            $locationCounts[$location->id] = $countQuery->count();
+        }
+
         // Получаем выбранную категорию для отображения в заголовке и хлебных крошках
         $selectedCategory = null;
         if ($request->has('category') && $request->category) {
@@ -124,6 +183,7 @@ class MainPageController extends Controller
             'availabilities' => $availabilities,
             'states' => $states,
             'selectedCategory' => $selectedCategory,
+            'locationCounts' => $locationCounts,
         ]);
     }
 }

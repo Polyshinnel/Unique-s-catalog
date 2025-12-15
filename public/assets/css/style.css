@@ -877,6 +877,12 @@ body{
     font-size: 13px;
 }
 
+.product-location{
+    color: #888;
+    font-size: 12px;
+    font-weight: 500;
+}
+
 .product-status-line{
     display: flex;
     gap: 10px;
@@ -1852,6 +1858,10 @@ body{
 
     .product-category{
         font-size: 12px;
+    }
+
+    .product-location{
+        font-size: 11px;
     }
 
     .product-status-line{

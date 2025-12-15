@@ -83,7 +83,7 @@
                         @foreach($locations as $location)
                             <label class="checkbox-label">
                                 <input type="checkbox" name="region[]" value="{{ $location->id }}" {{ in_array($location->id, (array)request('region', [])) ? 'checked' : '' }}>
-                                <span>{{ $location->name }}</span>
+                                <span>{{ $location->name }} ({{ $locationCounts[$location->id] ?? 0 }})</span>
                             </label>
                         @endforeach
                     </div>
