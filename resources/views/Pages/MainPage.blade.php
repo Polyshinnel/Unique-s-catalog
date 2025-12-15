@@ -68,12 +68,12 @@
                             <div class="price-inputs">
                                 <div class="price-input-group">
                                     <label for="priceInputMin" class="price-input-label">От:</label>
-                                    <input type="number" id="priceInputMin" class="price-input" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="10000" value="{{ $currentPriceMin }}" placeholder="От">
+                                    <input type="number" id="priceInputMin" class="price-input" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="1" value="{{ $currentPriceMin }}" placeholder="От">
                                     <span class="price-currency">₽</span>
                                 </div>
                                 <div class="price-input-group">
                                     <label for="priceInputMax" class="price-input-label">До:</label>
-                                    <input type="number" id="priceInputMax" class="price-input" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="10000" value="{{ $currentPriceMax }}" placeholder="До">
+                                    <input type="number" id="priceInputMax" class="price-input" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="1" value="{{ $currentPriceMax }}" placeholder="До">
                                     <span class="price-currency">₽</span>
                                 </div>
                             </div>
