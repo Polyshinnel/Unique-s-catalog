@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             this.lightbox.querySelector('.lightbox-close').addEventListener('click', () => this.close());
-            this.lightbox.querySelector('.lightbox-overlay').addEventListener('click', () => this.close());
             this.lightbox.querySelector('.lightbox-prev').addEventListener('click', () => this.prev());
             this.lightbox.querySelector('.lightbox-next').addEventListener('click', () => this.next());
             
