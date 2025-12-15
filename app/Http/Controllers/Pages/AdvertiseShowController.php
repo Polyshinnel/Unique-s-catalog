@@ -27,7 +27,8 @@ class AdvertiseShowController extends Controller
             'mainImage',
             'productManager',
             'productCharacteristics',
-            'productStatus'
+            'productStatus',
+            'productTags'
         ])->findOrFail($productId);
 
         return view('Pages.AdvertiseShowPage', compact('product'));

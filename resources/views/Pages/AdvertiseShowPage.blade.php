@@ -300,6 +300,17 @@
                 </div>
                 @endif
             @endif
+
+            @if($product->productTags && $product->productTags->count() > 0)
+            <div class="info-block">
+                <h2 class="info-block-title">Теги товара</h2>
+                <div class="product-tags">
+                    @foreach($product->productTags as $tag)
+                    <a href="{{ route('home') }}?search={{ urlencode($tag->tag) }}" class="product-tag">{{ $tag->tag }}</a>
+                    @endforeach
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>

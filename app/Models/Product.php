@@ -65,4 +65,9 @@ class Product extends Model
     {
         return $this->belongsTo(ProductStatus::class, 'product_status_id');
     }
+
+    public function productTags()
+    {
+        return $this->hasMany(ProductTag::class);
+    }
 }
