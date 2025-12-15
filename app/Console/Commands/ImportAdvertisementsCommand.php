@@ -12,6 +12,7 @@ use App\Models\ProductManager;
 use App\Models\ProductPrice;
 use App\Models\ProductState;
 use App\Models\ProductStatus;
+use App\Models\ProductTag;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -434,6 +435,11 @@ class ImportAdvertisementsCommand extends Command
             $this->downloadImages($product, $advertisementXml->media->media_item);
         }
         
+        // Импортируем теги
+        if (isset($advertisementXml->tags->tag)) {
+            $this->importTags($product, $advertisementXml->tags->tag);
+        }
+        
         return $result;
     }
     
@@ -499,6 +505,27 @@ class ImportAdvertisementsCommand extends Command
             } catch (\Exception $e) {
                 $this->warn("Ошибка при скачивании изображения {$fileUrl}: " . $e->getMessage());
                 continue;
+            }
+        }
+    }
+    
+    /**
+     * Импорт тегов для товара
+     */
+    private function importTags(Product $product, $tags)
+    {
+        // Удаляем старые теги
+        ProductTag::where('product_id', $product->id)->delete();
+        
+        // Добавляем новые теги
+        foreach ($tags as $tag) {
+            $tagValue = trim((string)$tag);
+            
+            if (!empty($tagValue)) {
+                ProductTag::create([
+                    'product_id' => $product->id,
+                    'tag' => $tagValue,
+                ]);
             }
         }
     }

@@ -12,7 +12,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Быстрое обновление товаров каждые 5 минут
+        $schedule->command('advertisements:quick-update')
+            ->everyFiveMinutes()
+            ->withoutOverlapping()
+            ->runInBackground();
+        
+        // Полное обновление товаров в полночь
+        $schedule->command('advertisements:full-update')
+            ->dailyAt('00:00')
+            ->withoutOverlapping()
+            ->runInBackground();
     }
 
     /**
