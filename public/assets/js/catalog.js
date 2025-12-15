@@ -76,31 +76,35 @@ if (priceInputMinField && priceInputMaxField) {
         this.select();
     });
     
-    // Выделение при клике
+    // Выделение при клике (с небольшой задержкой, чтобы не конфликтовало с focus)
     priceInputMinField.addEventListener('click', function() {
-        this.select();
+        setTimeout(() => this.select(), 0);
     });
     
     priceInputMaxField.addEventListener('click', function() {
-        this.select();
+        setTimeout(() => this.select(), 0);
     });
     
-    priceInputMinField.addEventListener('input', function() {
+    // Обновление при потере фокуса
+    priceInputMinField.addEventListener('blur', function() {
         const minValue = parseInt(this.value) || parseInt(priceSliderMin.min);
         const maxValue = parseInt(priceInputMaxField.value) || parseInt(priceSliderMax.max);
         updatePriceValues(minValue, maxValue);
     });
     
-    priceInputMaxField.addEventListener('input', function() {
+    priceInputMaxField.addEventListener('blur', function() {
         const minValue = parseInt(priceInputMinField.value) || parseInt(priceSliderMin.min);
         const maxValue = parseInt(this.value) || parseInt(priceSliderMax.max);
         updatePriceValues(minValue, maxValue);
     });
     
-    // Обработка Enter в инпутах
+    // Обработка Enter в инпутах - обновить и закрыть
     priceInputMinField.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
+            const minValue = parseInt(this.value) || parseInt(priceSliderMin.min);
+            const maxValue = parseInt(priceInputMaxField.value) || parseInt(priceSliderMax.max);
+            updatePriceValues(minValue, maxValue);
             this.blur();
         }
     });
@@ -108,6 +112,9 @@ if (priceInputMinField && priceInputMaxField) {
     priceInputMaxField.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             e.preventDefault();
+            const minValue = parseInt(priceInputMinField.value) || parseInt(priceSliderMin.min);
+            const maxValue = parseInt(this.value) || parseInt(priceSliderMax.max);
+            updatePriceValues(minValue, maxValue);
             this.blur();
         }
     });
