@@ -317,6 +317,6 @@
 
 
 @push('scripts')
-    <script src="/assets/js/catalog-item.js"></script>
+    <script src="/assets/js/catalog-item.js?ver=1234"></script>
 @endpush
 @endsection

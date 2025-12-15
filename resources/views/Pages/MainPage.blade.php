@@ -242,6 +242,6 @@
 </div>
 
 @push('scripts')
-    <script src="/assets/js/catalog.js"></script>
+    <script src="/assets/js/catalog.js?ver=1234"></script>
 @endpush
 @endsection
