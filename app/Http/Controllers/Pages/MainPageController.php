@@ -97,6 +97,14 @@ class MainPageController extends Controller
         $perPage = 12; // Количество товаров на странице
         $products = $query->paginate($perPage)->withQueryString();
 
+        // Ограничиваем длину названий товаров
+        $products->getCollection()->transform(function ($product) {
+            if (mb_strlen($product->name) > 50) {
+                $product->name = mb_substr($product->name, 0, 50) . '...';
+            }
+            return $product;
+        });
+
         // Получаем данные для фильтров
         $categories = Category::where('active', true)->get();
         $locations = ProductLocation::where('active', true)->get();
