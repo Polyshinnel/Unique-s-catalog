@@ -65,13 +65,21 @@
                             @endphp
                             <input type="hidden" name="price_min" id="priceMinInput" value="{{ $currentPriceMin }}">
                             <input type="hidden" name="price_max" id="priceMaxInput" value="{{ $currentPriceMax }}">
+                            <div class="price-inputs">
+                                <div class="price-input-group">
+                                    <label for="priceInputMin" class="price-input-label">От:</label>
+                                    <input type="number" id="priceInputMin" class="price-input" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="10000" value="{{ $currentPriceMin }}" placeholder="От">
+                                    <span class="price-currency">₽</span>
+                                </div>
+                                <div class="price-input-group">
+                                    <label for="priceInputMax" class="price-input-label">До:</label>
+                                    <input type="number" id="priceInputMax" class="price-input" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="10000" value="{{ $currentPriceMax }}" placeholder="До">
+                                    <span class="price-currency">₽</span>
+                                </div>
+                            </div>
                             <div class="price-slider-container">
                                 <input type="range" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="10000" value="{{ $currentPriceMin }}" class="price-slider price-slider-min" id="priceSliderMin">
                                 <input type="range" min="{{ $minPrice }}" max="{{ $maxPrice }}" step="10000" value="{{ $currentPriceMax }}" class="price-slider price-slider-max" id="priceSliderMax">
-                            </div>
-                            <div class="price-values">
-                                <span id="priceValueMin">{{ number_format($currentPriceMin, 0, ',', ' ') }} ₽</span>
-                                <span id="priceValueMax">{{ number_format($currentPriceMax, 0, ',', ' ') }} ₽</span>
                             </div>
                         </div>
                     </div>

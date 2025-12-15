@@ -1,39 +1,33 @@
 const priceSliderMin = document.getElementById('priceSliderMin');
 const priceSliderMax = document.getElementById('priceSliderMax');
-const priceValueMin = document.getElementById('priceValueMin');
-const priceValueMax = document.getElementById('priceValueMax');
+const priceInputMinField = document.getElementById('priceInputMin');
+const priceInputMaxField = document.getElementById('priceInputMax');
 const priceMinInput = document.getElementById('priceMinInput');
 const priceMaxInput = document.getElementById('priceMaxInput');
 const priceSliderContainer = document.querySelector('.price-slider-container');
 
-function updatePriceSlider() {
-    if (!priceSliderMin || !priceSliderMax) return;
-    
-    let minValue = parseInt(priceSliderMin.value);
-    let maxValue = parseInt(priceSliderMax.value);
+function updatePriceValues(minValue, maxValue) {
     const minLimit = parseInt(priceSliderMin.min);
-    const maxLimit = parseInt(priceSliderMin.max);
+    const maxLimit = parseInt(priceSliderMax.max);
+    
+    // Убеждаемся, что значения в пределах допустимого диапазона
+    minValue = Math.max(minLimit, Math.min(maxLimit, minValue));
+    maxValue = Math.max(minLimit, Math.min(maxLimit, maxValue));
     
     // Убеждаемся, что минимальное значение не превышает максимальное
     if (minValue > maxValue) {
         const temp = minValue;
         minValue = maxValue;
         maxValue = temp;
-        priceSliderMin.value = minValue;
-        priceSliderMax.value = maxValue;
     }
     
-    // Обновляем скрытые поля формы
+    // Обновляем все элементы
+    if (priceSliderMin) priceSliderMin.value = minValue;
+    if (priceSliderMax) priceSliderMax.value = maxValue;
+    if (priceInputMinField) priceInputMinField.value = minValue;
+    if (priceInputMaxField) priceInputMaxField.value = maxValue;
     if (priceMinInput) priceMinInput.value = minValue;
     if (priceMaxInput) priceMaxInput.value = maxValue;
-    
-    // Обновляем отображаемые значения
-    if (priceValueMin) {
-        priceValueMin.textContent = minValue.toLocaleString('ru-RU') + ' ₽';
-    }
-    if (priceValueMax) {
-        priceValueMax.textContent = maxValue.toLocaleString('ru-RU') + ' ₽';
-    }
     
     // Обновляем визуальное отображение диапазона
     if (priceSliderContainer) {
@@ -54,12 +48,51 @@ function updatePriceSlider() {
     }
 }
 
+function updatePriceSlider() {
+    if (!priceSliderMin || !priceSliderMax) return;
+    
+    const minValue = parseInt(priceSliderMin.value);
+    const maxValue = parseInt(priceSliderMax.value);
+    
+    updatePriceValues(minValue, maxValue);
+}
+
 if (priceSliderMin && priceSliderMax) {
     priceSliderMin.addEventListener('input', updatePriceSlider);
     priceSliderMax.addEventListener('input', updatePriceSlider);
     
     // Инициализация при загрузке страницы
     updatePriceSlider();
+}
+
+// Обработчики для инпутов
+if (priceInputMinField && priceInputMaxField) {
+    priceInputMinField.addEventListener('input', function() {
+        const minValue = parseInt(this.value) || parseInt(priceSliderMin.min);
+        const maxValue = parseInt(priceInputMaxField.value) || parseInt(priceSliderMax.max);
+        updatePriceValues(minValue, maxValue);
+    });
+    
+    priceInputMaxField.addEventListener('input', function() {
+        const minValue = parseInt(priceInputMinField.value) || parseInt(priceSliderMin.min);
+        const maxValue = parseInt(this.value) || parseInt(priceSliderMax.max);
+        updatePriceValues(minValue, maxValue);
+    });
+    
+    // Обработка Enter в инпутах
+    priceInputMinField.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.blur();
+        }
+    });
+    
+    priceInputMaxField.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            this.blur();
+        }
+    });
 }
 
 const categoryHeaders = document.querySelectorAll('.category-header');
