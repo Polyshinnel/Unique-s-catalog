@@ -1000,7 +1000,7 @@ body{
 
 .advertise-info{
     display: grid;
-    grid-template-columns: 550px 1fr;
+    grid-template-columns: 1fr 550px;
     gap: 30px;
     margin-top: 30px;
     margin-bottom: 50px;
@@ -1020,6 +1020,11 @@ body{
     position: sticky;
     top: 20px;
     align-self: flex-start;
+    order: 2;
+}
+
+.advertise-content{
+    order: 1;
 }
 
 .advertise-gallery{
@@ -2051,6 +2056,11 @@ body{
 
     .advertise-main{
         position: static;
+        order: 2;
+    }
+
+    .advertise-content{
+        order: 1;
     }
 
     .advertise-gallery{
