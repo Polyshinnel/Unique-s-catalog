@@ -35,8 +35,7 @@ class MainPageController extends Controller
 
         // Фильтр по цене
         if ($request->has('price_min') || $request->has('price_max')) {
-            $query->whereHas('productPrice', function($q) use ($request) {
-                $q->where('show', true);
+            $query->whereHas('productPriceAll', function($q) use ($request) {
                 if ($request->has('price_min') && $request->price_min) {
                     $q->where('price', '>=', (int)$request->price_min);
                 }
