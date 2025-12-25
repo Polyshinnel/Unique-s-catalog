@@ -9,6 +9,7 @@ use App\Models\ProductAvailable;
 use App\Models\ProductLocation;
 use App\Models\ProductState;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MainPageController extends Controller
 {
@@ -35,12 +36,23 @@ class MainPageController extends Controller
 
         // Фильтр по цене
         if ($request->has('price_min') || $request->has('price_max')) {
-            $query->whereHas('productPriceAll', function($q) use ($request) {
+            $query->where(function($q) use ($request) {
+                // Используем подзапрос для фильтрации по цене, чтобы не исключать товары без цен
                 if ($request->has('price_min') && $request->price_min) {
-                    $q->where('price', '>=', (int)$request->price_min);
+                    $q->whereExists(function($subQuery) use ($request) {
+                        $subQuery->select(DB::raw(1))
+                                 ->from('product_prices')
+                                 ->whereColumn('product_prices.product_id', 'products.id')
+                                 ->where('product_prices.price', '>=', (int)$request->price_min);
+                    });
                 }
                 if ($request->has('price_max') && $request->price_max) {
-                    $q->where('price', '<=', (int)$request->price_max);
+                    $q->whereExists(function($subQuery) use ($request) {
+                        $subQuery->select(DB::raw(1))
+                                 ->from('product_prices')
+                                 ->whereColumn('product_prices.product_id', 'products.id')
+                                 ->where('product_prices.price', '<=', (int)$request->price_max);
+                    });
                 }
             });
         }
@@ -97,7 +109,8 @@ class MainPageController extends Controller
 
         // Пагинация
         $perPage = 12; // Количество товаров на странице
-        $products = $query->paginate($perPage)->withQueryString();
+        // Добавляем distinct для устранения возможных дубликатов при использовании whereHas и eager loading
+        $products = $query->distinct()->paginate($perPage)->withQueryString();
 
         // Ограничиваем длину названий товаров
         $products->getCollection()->transform(function ($product) {
@@ -114,11 +127,13 @@ class MainPageController extends Controller
         $states = ProductState::all();
 
         // Подсчет товаров по регионам с учетом других фильтров
+        // Создаем базовый запрос с теми же условиями, что и основной запрос
         $locationCounts = [];
         foreach ($locations as $location) {
+            // Клонируем основной запрос для подсчета, но без пагинации и сортировки
             $countQuery = Product::query();
             
-            // Применяем все фильтры кроме фильтра по региону
+            // Применяем все фильтры кроме фильтра по региону (точно так же, как в основном запросе)
             $countQuery->whereHas('productStatus', function($q) {
                 $q->where('show', true);
             });
@@ -137,12 +152,23 @@ class MainPageController extends Controller
             
             // Фильтр по цене
             if ($request->has('price_min') || $request->has('price_max')) {
-                $countQuery->whereHas('productPriceAll', function($q) use ($request) {
+                $countQuery->where(function($q) use ($request) {
+                    // Используем подзапрос для фильтрации по цене, чтобы не исключать товары без цен
                     if ($request->has('price_min') && $request->price_min) {
-                        $q->where('price', '>=', (int)$request->price_min);
+                        $q->whereExists(function($subQuery) use ($request) {
+                            $subQuery->select(DB::raw(1))
+                                     ->from('product_prices')
+                                     ->whereColumn('product_prices.product_id', 'products.id')
+                                     ->where('product_prices.price', '>=', (int)$request->price_min);
+                        });
                     }
                     if ($request->has('price_max') && $request->price_max) {
-                        $q->where('price', '<=', (int)$request->price_max);
+                        $q->whereExists(function($subQuery) use ($request) {
+                            $subQuery->select(DB::raw(1))
+                                     ->from('product_prices')
+                                     ->whereColumn('product_prices.product_id', 'products.id')
+                                     ->where('product_prices.price', '<=', (int)$request->price_max);
+                        });
                     }
                 });
             }
