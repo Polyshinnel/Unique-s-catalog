@@ -79,10 +79,10 @@ class MainPageController extends Controller
         $sort = $request->get('sort', 'default');
         switch ($sort) {
             case 'price_desc':
-                $query->orderByRaw('(SELECT MAX(price) FROM product_prices WHERE product_prices.product_id = products.id AND product_prices.show = 1) DESC');
+                $query->orderByRaw('(SELECT MAX(price) FROM product_prices WHERE product_prices.product_id = products.id) DESC');
                 break;
             case 'price_asc':
-                $query->orderByRaw('(SELECT MIN(price) FROM product_prices WHERE product_prices.product_id = products.id AND product_prices.show = 1) ASC');
+                $query->orderByRaw('(SELECT MIN(price) FROM product_prices WHERE product_prices.product_id = products.id) ASC');
                 break;
             case 'newest':
                 $query->orderBy('last_system_update', 'desc');
@@ -138,8 +138,7 @@ class MainPageController extends Controller
             
             // Фильтр по цене
             if ($request->has('price_min') || $request->has('price_max')) {
-                $countQuery->whereHas('productPrice', function($q) use ($request) {
-                    $q->where('show', true);
+                $countQuery->whereHas('productPriceAll', function($q) use ($request) {
                     if ($request->has('price_min') && $request->price_min) {
                         $q->where('price', '>=', (int)$request->price_min);
                     }
