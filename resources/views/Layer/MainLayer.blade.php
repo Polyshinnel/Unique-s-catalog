@@ -261,13 +261,25 @@
         // Обработка формы обратного звонка
         const footerRecallForm = document.getElementById('footerRecallForm');
         if (footerRecallForm) {
+            const phoneInput = document.getElementById('footer-phone');
+            const submitBtn = document.getElementById('footer-submit-btn');
+            const originalButtonText = submitBtn.value; // Сохраняем оригинальный текст кнопки
+            
+            // Обработчик клика на поле ввода телефона
+            if (phoneInput) {
+                phoneInput.addEventListener('click', function() {
+                    // Если текст кнопки изменен, возвращаем оригинальный
+                    if (submitBtn.value !== originalButtonText) {
+                        submitBtn.value = originalButtonText;
+                    }
+                });
+            }
+            
             footerRecallForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                const phoneInput = document.getElementById('footer-phone');
                 const errorDiv = document.getElementById('footer-phone-error');
                 const successDiv = document.getElementById('footer-form-success');
-                const submitBtn = document.getElementById('footer-submit-btn');
                 
                 // Скрываем предыдущие сообщения
                 errorDiv.style.display = 'none';
@@ -306,22 +318,27 @@
                         successDiv.style.display = 'block';
                         // Очищаем форму
                         phoneInput.value = '';
+                        // Меняем текст кнопки на "Сообщение отправлено"
+                        submitBtn.value = 'Сообщение отправлено';
                         // Прокручиваем к сообщению об успехе
                         successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     } else {
                         // Показываем ошибку
                         errorDiv.textContent = data.message || 'Произошла ошибка. Попробуйте позже.';
                         errorDiv.style.display = 'block';
+                        // Возвращаем оригинальный текст кнопки
+                        submitBtn.value = originalButtonText;
                     }
                 })
                 .catch(error => {
                     errorDiv.textContent = 'Произошла ошибка при отправке. Попробуйте позже.';
                     errorDiv.style.display = 'block';
+                    // Возвращаем оригинальный текст кнопки
+                    submitBtn.value = originalButtonText;
                 })
                 .finally(() => {
                     // Разблокируем кнопку
                     submitBtn.disabled = false;
-                    submitBtn.value = 'Позвоните мне';
                 });
             });
         }
