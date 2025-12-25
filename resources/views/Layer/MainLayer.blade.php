@@ -172,7 +172,6 @@
                             </div>
                             
                             <input type="submit" class="form-submit" value="Позвоните мне" id="footer-submit-btn">
-                            <div class="form-success" id="footer-form-success" style="display: none; color: green; font-size: 14px; margin-top: 10px;">Сообщение успешно отправлено!</div>
                         </form>
                     </div>
                 </div>
@@ -279,11 +278,9 @@
                 e.preventDefault();
                 
                 const errorDiv = document.getElementById('footer-phone-error');
-                const successDiv = document.getElementById('footer-form-success');
                 
                 // Скрываем предыдущие сообщения
                 errorDiv.style.display = 'none';
-                successDiv.style.display = 'none';
                 errorDiv.textContent = '';
                 
                 const phone = phoneInput.value.trim();
@@ -314,14 +311,10 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Показываем сообщение об успехе
-                        successDiv.style.display = 'block';
                         // Очищаем форму
                         phoneInput.value = '';
                         // Меняем текст кнопки на "Сообщение отправлено"
                         submitBtn.value = 'Сообщение отправлено';
-                        // Прокручиваем к сообщению об успехе
-                        successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     } else {
                         // Показываем ошибку
                         errorDiv.textContent = data.message || 'Произошла ошибка. Попробуйте позже.';
