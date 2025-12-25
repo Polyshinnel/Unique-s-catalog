@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CallbackController;
 use App\Http\Controllers\Pages\AdvertiseShowController;
 use App\Http\Controllers\Pages\MainPageController;
 use Illuminate\Support\Facades\Route;
@@ -17,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', MainPageController::class)->name('home');
 Route::get('/advertise', AdvertiseShowController::class)->name('advertise');
+Route::post('/callback', [CallbackController::class, 'sendCallback'])->name('callback.send');

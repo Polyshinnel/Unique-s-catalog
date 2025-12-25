@@ -48,7 +48,7 @@
                     <nav class="menu" id="mainMenu">
                         <a href="https://uniqset.com/" class="menu-link">Главная</a>
                         <a href="https://uniqset.com/prodazha-oborudovaniya/" class="menu-link">Услуги</a>
-                        <a href="/" class="menu-link">Интернет магазин</a>
+                        <a href="/" class="menu-link">Каталог оборудования</a>
                         <a href="https://uniqset.com/otgruzki/" class="menu-link">Отгрузки</a>
                         <a href="https://uniqset.com/o-nas/" class="menu-link">Компания</a>
                         <a href="https://uniqset.com/o-nas/contacts/" class="menu-link">Контакты</a>
@@ -108,7 +108,7 @@
                     <nav class="menu" id="mainMenuMobile">
                         <a href="https://uniqset.com/" class="menu-link">Главная</a>
                         <a href="https://uniqset.com/prodazha-oborudovaniya/" class="menu-link">Услуги</a>
-                        <a href="/" class="menu-link">Интернет магазин</a>
+                        <a href="/" class="menu-link">Каталог оборудования</a>
                         <a href="https://uniqset.com/otgruzki/" class="menu-link">Отгрузки</a>
                         <a href="https://uniqset.com/o-nas/" class="menu-link">Компания</a>
                         <a href="https://uniqset.com/o-nas/contacts/" class="menu-link">Контакты</a>
@@ -163,13 +163,16 @@
                     <div class="footer-content-block-item">
                         <h2>Обратный звонок</h2>
 
-                        <form class="footer-recall-form">
+                        <form class="footer-recall-form" id="footerRecallForm">
+                            @csrf
                             <div class="form-group">
                                 <label for="footer-phone">Телефон</label>
-                                <input type="text" name="footer-phone" id="footer-phone" placeholder="Ваш номер телефона">
+                                <input type="text" name="phone" id="footer-phone" placeholder="Ваш номер телефона" required>
+                                <div class="form-error" id="footer-phone-error" style="display: none; color: red; font-size: 12px; margin-top: 5px;"></div>
                             </div>
                             
-                            <input type="submit" class="form-submit" value="Позвоните мне">
+                            <input type="submit" class="form-submit" value="Позвоните мне" id="footer-submit-btn">
+                            <div class="form-success" id="footer-form-success" style="display: none; color: green; font-size: 14px; margin-top: 10px;">Сообщение успешно отправлено!</div>
                         </form>
                     </div>
                 </div>
@@ -253,6 +256,109 @@
                     }, 500);
                 }
             });
+        }
+
+        // Обработка формы обратного звонка
+        const footerRecallForm = document.getElementById('footerRecallForm');
+        if (footerRecallForm) {
+            footerRecallForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const phoneInput = document.getElementById('footer-phone');
+                const errorDiv = document.getElementById('footer-phone-error');
+                const successDiv = document.getElementById('footer-form-success');
+                const submitBtn = document.getElementById('footer-submit-btn');
+                
+                // Скрываем предыдущие сообщения
+                errorDiv.style.display = 'none';
+                successDiv.style.display = 'none';
+                errorDiv.textContent = '';
+                
+                const phone = phoneInput.value.trim();
+                
+                // Валидация телефона на клиенте
+                if (!validateRussianPhone(phone)) {
+                    errorDiv.textContent = 'Некорректный номер телефона для РФ. Введите номер в формате +7XXXXXXXXXX или 8XXXXXXXXXX';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                
+                // Блокируем кнопку отправки
+                submitBtn.disabled = true;
+                submitBtn.value = 'Отправка...';
+                
+                // Отправляем AJAX запрос
+                fetch('{{ route("callback.send") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phone: phone
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Показываем сообщение об успехе
+                        successDiv.style.display = 'block';
+                        // Очищаем форму
+                        phoneInput.value = '';
+                        // Прокручиваем к сообщению об успехе
+                        successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    } else {
+                        // Показываем ошибку
+                        errorDiv.textContent = data.message || 'Произошла ошибка. Попробуйте позже.';
+                        errorDiv.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    errorDiv.textContent = 'Произошла ошибка при отправке. Попробуйте позже.';
+                    errorDiv.style.display = 'block';
+                })
+                .finally(() => {
+                    // Разблокируем кнопку
+                    submitBtn.disabled = false;
+                    submitBtn.value = 'Позвоните мне';
+                });
+            });
+        }
+
+        // Функция валидации российского номера телефона
+        function validateRussianPhone(phone) {
+            if (!phone) return false;
+            
+            // Удаляем все символы кроме цифр и +
+            const cleaned = phone.replace(/[^\d+]/g, '');
+            
+            // Проверяем, что номер начинается с +7, 7 или 8
+            if (!/^(\+?7|8)/.test(cleaned)) {
+                return false;
+            }
+            
+            // Заменяем 8 на 7 для единообразия
+            let normalized = cleaned;
+            if (normalized.startsWith('8')) {
+                normalized = '7' + normalized.substring(1);
+            }
+            
+            // Удаляем + если есть
+            normalized = normalized.replace(/^\+/, '');
+            
+            // Проверяем, что номер состоит из 11 цифр (7 + 10 цифр)
+            if (normalized.length !== 11 || normalized[0] !== '7') {
+                return false;
+            }
+            
+            // Проверяем, что вторая цифра (код оператора) от 3 до 9
+            const operatorCode = parseInt(normalized[1]);
+            if (operatorCode < 3 || operatorCode > 9) {
+                return false;
+            }
+            
+            return true;
         }
     </script>
 </body>
